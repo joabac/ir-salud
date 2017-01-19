@@ -1,0 +1,46 @@
+body{
+  background: #00589F;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00589F', endColorstr='#0073CF', GradientType=0);
+  background: -webkit-linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
+  background: -moz-linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
+  background: -ms-linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
+  background: -o-linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
+  background: linear-gradient(to bottom, #00589F 50%, #0073CF) !important;
+  color: black;
+}
+
+div.well{
+  height: 250px;
+} 
+
+.Absolute-Center {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.Absolute-Center.is-Responsive {
+    width: 50%; 
+    height: 30%;
+    min-width: 200px;
+    max-width: 400px;
+    padding: 40px;
+    -webkit-box-shadow: 0px 0px 48px -5px rgba(0,0,0,0.66);
+    -moz-box-shadow: 0px 0px 48px -5px rgba(0,0,0,0.66);
+    box-shadow: 0px 0px 48px -5px rgba(0,0,0,0.66);
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+}
+
+#logo-container{
+  margin: auto;
+  margin-bottom: 10px;
+  width:200px;
+  background-image:url('../img/logo.jpg');
+}
+
+img #logo_login
+{
+    height: 42px;
+}
