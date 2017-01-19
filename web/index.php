@@ -12,11 +12,11 @@
         <!--<link href="js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>--> 
 <!--estilos-->
        
-        <link href="js/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css" rel="stylesheet" type="text/css"/>
+        
 
         <link href="js/fullcalendar-3.1.0/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/fullcalendar-3.1.0/fullcalendar.print.min.css" rel="stylesheet" type="text/css"/>
-        
+        <link href="js/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         
         <link href="css/estilo.css" rel="stylesheet" type="text/css"/>

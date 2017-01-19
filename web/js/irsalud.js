@@ -13,9 +13,8 @@ $(document).ready(function() {
     $('#agenda').on('click',function()
     {
        
+               irSalud();
     });
-     irSalud();
-    
 		
 });
 
