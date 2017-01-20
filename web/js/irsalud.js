@@ -9,11 +9,12 @@ var IrSalud;
 
 $(document).ready(function() {
 
+    irSalud();
 //declaro eventos principales de botonera
     $('#agenda').on('click',function()
     {
-       
-               irSalud();
+            $('#calendar').show();
+            IrSalud.calendario();
     });
 		
 });
@@ -26,11 +27,14 @@ function irSalud()
     {
          IrSalud = this;
     }
-    
+
+this.calendario = function(){   
     //inicializo agenda
     var fecha_inicial = moment.call().format('YYYY-MM-DD'); 
-    $('#panel_agenda').fullCalendar({
+    
+    $('#calendar').fullCalendar({
 			theme: true,
+                        height: $('#contenido').height()-30,
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -98,7 +102,7 @@ function irSalud()
 				}
 			]
 		});
-    
+            };
     
 };
 
