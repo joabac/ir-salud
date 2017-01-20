@@ -29,6 +29,8 @@ function irSalud()
 this.init = function()
 {
 
+    this.__eventoEnEdicion;
+    this.__eventoEditado = false;
     
     if(typeof IrSalud === 'undefined')
     {
@@ -46,6 +48,8 @@ this.init = function()
     $('#guardaEvento').on('click',function(evento)
     {
             console.log('guarda');
+            refrescarEvento();
+            $('#calendar').fullCalendar('updateEvent', __eventoEnEdicion);
     });
     
     $('#eliminaEvento').on('click',function(evento)
@@ -64,7 +68,29 @@ this.init = function()
 var editaEvento = function()
 {
         readOnlyEvento(false);
-        
+        __eventoEditado= true;
+};
+
+var refrescarEvento = function()
+{
+    var nuevoStart = moment($('#fechaDesde').val()+'T'+$('#horaDesde').val()+':00', "DD-MM-YYYYTHH:MM");
+    var nuevoHasta = moment($('#fechaHasta').val()+'T'+$('#horaHasta').val()+':00', "DD-MM-YYYYTHH:MM")
+    
+    __eventoEnEdicion = {
+					title: $('#titulo').val(),
+					start:  nuevoStart,
+					end:  nuevoHasta,
+                                        nombre:$('#nombre').val(),
+                                        apellido:$('#apellido').val(),
+                                        edad:$('#edadPaciente').val(),
+                                        telefonoFijo:$('#telefono-fijo').val(),
+                                        telefonoCelular:$('#telefono-celular').val(),
+                                        direccion:$('#direccion').val(),
+                                        descripcion:$('#descripcion').val(),
+                                        nota:$('#notas').val()
+                                        
+				};
+                                
 };
 
 var clearFormEventos = function()
@@ -104,6 +130,7 @@ var readOnlyEvento = function(estado)
     $('#fechaHasta').attr('readonly',estado);
     $('#horaDesde').attr('readonly',estado);
     $('#horaHasta').attr('readonly',estado);
+    $('#guardaEvento').attr('disabled',estado);
 };
 
 var showEditEvent = function(evento,infoJs,formatoVista)
@@ -125,6 +152,9 @@ var showEditEvent = function(evento,infoJs,formatoVista)
         }
 
      */
+    
+    __eventoEnEdicion = evento;
+    
     clearFormEventos();
     //bloqueo los campos
     readOnlyEvento(true);
