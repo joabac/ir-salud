@@ -10,7 +10,7 @@ and open the template in the editor.
 
 body, html ,.container-fluid{
     height: 100%;
-    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-family: aller,"Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
     font-size: 14px;
     
     
@@ -50,6 +50,7 @@ body, html ,.container-fluid{
 .herramientas
 {
     max-width: 100px;
+    min-width: 100px;
     height: 100%;
     -webkit-box-shadow: 6px 0px 21px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 6px 0px 21px 0px rgba(0,0,0,0.75);
@@ -74,7 +75,7 @@ body, html ,.container-fluid{
 #contenido
 {
     height: 100%;
-    
+  
    
 }
 
@@ -87,4 +88,16 @@ body, html ,.container-fluid{
     margin-right: auto;
     z-index: 10000;
 
+}
+
+.descripcion
+{
+  resize: vertical;
+  overflow: auto;
+}
+
+.notas
+{
+  resize: vertical;
+  overflow: auto;
 }
