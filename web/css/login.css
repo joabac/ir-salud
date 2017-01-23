@@ -10,7 +10,7 @@ body{
 }
 
 div.well{
-  height: 250px;
+  height: 300px;
 } 
 
 .Absolute-Center {
@@ -21,9 +21,10 @@ div.well{
 
 .Absolute-Center.is-Responsive {
     width: 50%; 
-    height: 30%;
+    height: 35%;
     min-width: 200px;
     max-width: 400px;
+    max-height: 300px;
     padding: 40px;
     -webkit-box-shadow: 0px 0px 48px -5px rgba(0,0,0,0.66);
     -moz-box-shadow: 0px 0px 48px -5px rgba(0,0,0,0.66);

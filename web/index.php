@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-
 <?php
-        // put your code here
+       
+        require("../php/login/common.php");
+        include "../php/config.php";
+
+        require_authentication();
 ?>
 <html>
     <head>
         <meta charset='utf-8' />
         <title>IR Salud</title>
-        
-        
+  
         
 <!--estilos-->
        
@@ -44,6 +46,7 @@
                         <div class="col-lg-3 col-xs-3 logo"></div>
                         <div class="col-lg-6 col-xs-5"></div>
                         <div class="col-lg-3 col-xs-4 text-right text-nowrap"><h5>Usuario:<span id="nombre_usuario">Un Usuario</span></h5></div>
+                        <button type="button" class="btn btn-default">Salir</button>
                     </div>
                 </div>
                 <div class="row cuerpo">
@@ -66,12 +69,12 @@
        
         <!-- Modal -->
         <div class="modal fade" id="EditarEvento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div class="col-lg-2 col-xs-2">
-                        <h4 class="modal-title" id="myModalLabel">Titulo:</h4>
+                        <h4 class="modal-title" id="myModalLabel">Título:</h4>
                     </div>
                     <div class="col-lg-8 col-xs-8">
                             <input id="titulo" type="text" class="form-control">
@@ -99,52 +102,63 @@
                                 <input type="text" class="form-control edadPaciente" id="edadPaciente" maxlength="3">
                             </div>
                         </div>
-                        <div class="col-lg-6 col-xs-6">  
+                        <div class="col-lg-4 col-xs-4">  
                                 <div class="form-group">
-                                  <label for="telefono-fijo" class="control-label">Telefono Fijo:</label>
+                                  <label for="telefono-fijo" class="control-label">Teléfono Fijo:</label>
                                   <input type="text" class="form-control telefono-fijo" id="telefono-fijo" maxlength="11"> 
                                 </div> 
                         </div> 
-                        <div class="col-lg-6 col-xs-6">
+                        <div class="col-lg-4 col-xs-4">
                                 <div class="form-group">
-                                  <label for="telefono-celular" class="control-label">Telefono Celular:</label>
+                                  <label for="telefono-celular" class="control-label">Teléfono Celular:</label>
                                   <input type="text" class="form-control telefono-celular" id="telefono-celular" maxlength="13"> 
                                 </div>
                         </div>
-                        <div class="col-lg-12 col-xs-12">
+                        <div class="col-lg-4 col-xs-4">
                            <div class="form-group">
                                 <label for="direccion" class="control-label">Dirección:</label>
                                 <input type="text" class="form-control direccion" id="direccion">
                             </div>
                         </div>
-                        <div class="col-lg-3 col-xs-3">
-                           <div class="form-group">
-                                <label for="fechaDesde" class="control-label">Fecha desde:</label>
-                                <input type="text" class="form-control fechaDesde" id="fechaDesde">
+                        
+                         
+                        <div class="col-lg-12 col-xs-12 checkbox-inline">
+                            <label class="col-lg-2 col-xs-2"><input id="diaCompleto" class="col-lg-2 col-xs-2 pull-left" type="checkbox" name="diaCompleto" value="false" /> Todo el día</label> 
+                        </div>
+                          <!--fechas y horas-->
+                        
+                            <div class="col-lg-3 col-xs-3">
+                               <div class="form-group">
+                                    <label for="fechaDesde" class="control-label">Fecha desde:</label>
+                                    <input type="text" class="form-control fechaDesde" id="fechaDesde">
+                                </div>
                             </div>
-                        </div><div class="col-lg-3 col-xs-3">
-                           <div class="form-group">
-                                <label for="horaDesde" class="control-label">Hora desde:</label>
-                                <input type="text" class="form-control horaDesde" id="horaDesde">
+                        <div id="duracionEvento">
+                            <div class="col-lg-3 col-xs-3">
+                               <div class="form-group">
+                                    <label for="horaDesde" class="control-label">Hora desde:</label>
+                                    <input type="text" class="form-control horaDesde" id="horaDesde">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-xs-3">
+                               <div class="form-group">
+                                    <label for="fechaHasta" class="control-label">Fecha Hasta:</label>
+                                    <input type="text" class="form-control fechaHasta" id="fechaHasta">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-xs-3">
+                               <div class="form-group">
+                                    <label for="horaHasta" class="control-label">Hora Hasta:</label>
+                                    <input type="text" class="form-control horaHasta" id="horaHasta">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-xs-3">
-                           <div class="form-group">
-                                <label for="fechaHasta" class="control-label">Fecha Hasta:</label>
-                                <input type="text" class="form-control fechaHasta" id="fechaHasta">
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-xs-3">
-                           <div class="form-group">
-                                <label for="horaHasta" class="control-label">Hora Hasta:</label>
-                                <input type="text" class="form-control horaHasta" id="horaHasta">
-                            </div>
-                        </div>
+                        <!--fechas y horas-->
                         
                         <div class="col-lg-12 col-xs-12">
                             <div class="form-group">
                               <label for="descripcion" class="control-label">Descripción:</label>
-                              <textarea class="form-control descripcion" id="descripcion" rows="5"></textarea>
+                              <textarea class="form-control descripcion" id="descripcion" rows="4"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-12 col-xs-12">
@@ -153,6 +167,7 @@
                               <textarea class="form-control notas" id="notas" rows="2"></textarea>
                             </div>
                         </div>
+                          <input id="id_evento" type="hidden" name="id" value="" />
                       </form>
                     </div>
                 </div>
