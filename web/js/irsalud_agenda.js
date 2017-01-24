@@ -24,6 +24,8 @@ $(document).ready(function() {
     {
         IrSalud.salir();
     });
+  
+
 		
 });
 
@@ -31,12 +33,13 @@ $(document).ready(function() {
 function irSalud()
 {
 
-this.init = function()
-{
+  this.init = function()
+  {
 
     this.__eventoEnEdicion;
     this.__eventoOriginal;
     this.__eventoEditado = false;
+    this.__color = '#5484ed';
     
     if(typeof IrSalud === 'undefined')
     {
@@ -44,14 +47,15 @@ this.init = function()
     }
     
  //eventos de edicion de agenda
-    $('#editaEvento').on('click',function(evento)
+    $('#editaEvento').on('click',function()
     {
             console.log('edita');
+            $('#editaEvento').attr('disabled',true);
             editaEvento();
             
     });
     
-    $('#guardaEvento').on('click',function(jsEvent)
+    $('#guardaEvento').on('click',function()
     {
         console.log('guarda');
         
@@ -105,6 +109,7 @@ this.init = function()
             evento.direccion=$('#direccion').val();
             evento.descripcion=$('#descripcion').val();
             evento.nota=$('#notas').val();
+            evento.color= $('select[name="colorpicker-bootstrap3-form"]').val();
            
             $('#calendar').fullCalendar('updateEvent', evento);
             
@@ -116,9 +121,26 @@ this.init = function()
             $('#EditarEvento').modal('hide');
     });
     
-    $('#eliminaEvento').on('click',function(evento)
+    $('#eliminaEvento').on('click',function()
     {
-            console.log('elimina');
+        var evento = __eventoEnEdicion;
+    
+        if(evento.length === 1)
+        {
+            evento = evento[0];
+            if(evento.id !== undefined)
+            {
+                $('#calendar').fullCalendar( 'removeEvents' , evento.id );
+            }
+        }
+        else
+        {
+            if(evento.length > 1){}
+            //todo manejar evebntos de repeticion
+        }
+        $('#EditarEvento').modal('hide');
+        
+             
     });
     
     $('#diaCompleto').on('change',function()
@@ -150,8 +172,7 @@ this.init = function()
             }).data("DateTimePicker");
             }
     });
-    
-    
+ 
    
 //    $('#EditarEvento').on('hidden.bs.modal', function (e) {
 //        console.log(e);
@@ -171,8 +192,10 @@ var formateaFecha = function(fecha)
 
 var editaEvento = function()
 {
-        readOnlyEvento(false);
-        __eventoEditado = true;
+    readOnlyEvento(false);
+    $('select[name="colorpicker-bootstrap3-form"]').simplecolorpicker('readOnly',false);
+    IrSalud.__eventoEditado = true;
+    
 };
 
 var clearFormEventos = function()
@@ -215,6 +238,7 @@ var readOnlyEvento = function(estado)
     $('#horaHasta').attr('readonly',estado);
     $('#guardaEvento').attr('disabled',estado);
     $('#diaCompleto').attr('disabled',estado);
+    
 };
 
 var showEditEvent = function(idEvento)
@@ -228,6 +252,7 @@ var showEditEvent = function(idEvento)
         nombre:'Jose',
         apellido:'Perez',
         edad:'84',
+        color: '#ccccccc'
         telefonoFijo:'03424537807',
         telefonoCelular:'0342155009810',
         direccion:'blas parera 425',
@@ -269,6 +294,20 @@ var showEditEvent = function(idEvento)
     $('#descripcion').val(evento.descripcion);
     $('#notas').val(evento.nota);
     
+    //color
+    $('select[name="colorpicker-bootstrap3-form"]').simplecolorpicker({picker: true, theme: 'glyphicons'});
+
+    if(evento.color !== undefined)
+    {
+        $('select[name="colorpicker-bootstrap3-form"]').simplecolorpicker('selectColor', evento.color);
+    }
+    else
+    {
+        $('select[name="colorpicker-bootstrap3-form"]').simplecolorpicker('selectColor', IrSalud.__color);
+    }
+    
+    $('select[name="colorpicker-bootstrap3-form"]').simplecolorpicker('readOnly',true);
+    //duracion y rango
     if(evento.allDay === true)
     {
         $('#diaCompleto').prop( "checked", true );
@@ -307,6 +346,8 @@ var showEditEvent = function(idEvento)
                 backdrop:true
               }
             );
+    
+    //mascaras para prevenir errores
     $('#horaDesde').mask('00:00');
     $('#horaHasta').mask('00:00');
     
@@ -315,7 +356,7 @@ var showEditEvent = function(idEvento)
     $('.telefono-celular').mask('0#');
     $('.nombre').mask('SSSSSSSSSSSSSSSSSSSS');
     $('.apellido').mask('SSSSSSSSSSSSSSSSSSSS');
-    
+   
 };
 
 this.salir = function()
@@ -345,6 +386,7 @@ this.calendario = function(){
     
     $('#calendar').fullCalendar({
 			theme: true,
+                        eventColor: this.__color,
                         height: $('#contenido').height()-30,
 			header: {
 				left: 'prev,next today',
@@ -402,6 +444,7 @@ this.calendario = function(){
 				},
 				{
                                         id:100,
+                                        color: '#7ae7bf',
 					title: 'visitar Jose',
 					start: '2017-01-07T11:00:00',
 					end: '2017-01-10T08:00:00',

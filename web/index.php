@@ -21,6 +21,8 @@
         <link href="js/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/jquery-ui-1.12.1.custom/jquery-ui.structure.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/dateTimePicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+        <link href="js/jquery-simplecolorpicker/jquery.simplecolorpicker.css" rel="stylesheet" type="text/css"/>
+        <link href="js/jquery-simplecolorpicker/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet" type="text/css"/>
         <link href="css/estilo.css" rel="stylesheet" type="text/css"/>
         <link href="css/fonts.css" rel="stylesheet" type="text/css"/>
         
@@ -34,6 +36,7 @@
         <script src="js/fullcalendar-3.1.0/fullcalendar.js" type="text/javascript"></script>
         <script src="js/fullcalendar-3.1.0/locale/es.js" type="text/javascript"></script>
         <script src="js/dateTimePicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+        <script src="js/jquery-simplecolorpicker/jquery.simplecolorpicker.js" type="text/javascript"></script>
         <script src="js/irsalud_agenda.js" type="text/javascript"></script>
         
     </head>
@@ -43,10 +46,10 @@
             
                 <div class="row">
                     <div class="col-lg-12 col-xs-12 header">
-                        <div class="col-lg-3 col-xs-3 logo"></div>
-                        <div class="col-lg-5 col-xs-3"></div>
-                        <div class="col-lg-3 col-xs-4 text-right text-nowrap"><h5>Usuario:<span id="nombre_usuario">"<?php echo $_SESSION['username']?>"</span></h5></div>
-                        <div class="col-lg-1 col-xs-1 text-right text-nowrap"><button id="salir" type="button" class="btn btn-default pull-right">Salir</button></div>
+                        <div class="col-lg-3 col-xs-3 pull-left logo"></div>
+                        <div class="col-lg-6 col-xs-3"></div>
+                        <div class="col-lg-2 col-xs-4 text-right text-nowrap"><span class="pull-right text-right"><h5>Usuario:<span id="nombre_usuario">"<?php echo $_SESSION['username']?>"</span></h5></span></div>
+                        <div class="col-lg-1 col-xs-2 pull-right"><button id="salir" type="button" class="btn btn-default pull-right">Salir</button></div>
                     </div>
                 </div>
                 <div class="row cuerpo">
@@ -102,10 +105,32 @@
                                 <input type="text" class="form-control edadPaciente" id="edadPaciente" maxlength="3">
                             </div>
                         </div>
-                        <div class="col-lg-2 col-xs-2">
-                            <div class="form-group">
-                                <label for="edadPaciente" class="control-label">Color de Evento:</label>
-                                <button type="button" class="btn btn-default" id="demo2">...</button>
+                        <div class="form-group">
+                            <div class="col-lg-2 col-xs-2">
+                                 <label class="control-label" for="colorpicker-bootstrap3-form">Color:</label>
+                                 </br>
+                                 <select name="colorpicker-bootstrap3-form" id="colorpicker-bootstrap3-form" class="form-control">
+                                    <option value="#378006">Verde Obscuro</option>
+                                    <option value="#5484ed">Azul Obscuro</option>
+                                    <option value="#a4bdfc">Azul</option>
+                                    <option value="#46d6db">Turquesa</option>
+                                    <option value="#7ae7bf">Verde Claro</option>
+                                    <option value="#51b749">Verde</option>
+                                    <option value="#fbd75b">Amarillo</option>
+                                    <option value="#8B008B">Magenta</option>
+                                    <option value="#53868B">Azul Cadete</option>
+                                    <option value="#ffb878">Naranja</option>
+                                    <option value="#ff887c">Rojo</option>
+                                    <option value="#dc2127">Rojo Obscuro</option>
+                                    <option value="#dbadff">Purpura</option>
+                                    <option value="#D2691E">Chocolate</option>
+                                    <option value="#8B3E2F">Coral</option>
+                                    <option value="#6495ED">Azul aciano</option>
+                                    <option value="#00CDCD">Cian</option>
+                                    <option value="#A2CD5A">Verde oliva</option>
+                                    <option value="#528B8B">Gris pizarra</option>
+                                    
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-4 col-xs-4">  
@@ -129,38 +154,39 @@
                         
                          
                         <div class="col-lg-12 col-xs-12 checkbox-inline">
-                            <label class="col-lg-2 col-xs-2"><input id="diaCompleto" class="col-lg-2 col-xs-2 pull-left" type="checkbox" name="diaCompleto" value="false" /> Todo el día</label> 
+                            <label class="col-lg-2 col-xs-2 text-nowrap"><input id="diaCompleto" class="col-lg-2 col-xs-2 pull-left" type="checkbox" name="diaCompleto" value="false" /> Todo el día</label> 
                         </div>
                           <!--fechas y horas-->
-                        
-                            <div class="col-lg-3 col-xs-3">
-                               <div class="form-group">
-                                    <label for="fechaDesde" class="control-label">Fecha desde:</label>
-                                    <input type="text" class="form-control fechaDesde" id="fechaDesde">
+                        <div class="col-lg-12 col-xs-12">
+                                <div class="col-lg-3 col-xs-3">
+                                   <div class="form-group">
+                                        <label for="fechaDesde" class="control-label">Fecha desde:</label>
+                                        <input type="text" class="form-control fechaDesde" id="fechaDesde">
+                                    </div>
                                 </div>
-                            </div>
-                        <div id="duracionEvento">
-                            <div class="col-lg-3 col-xs-3">
-                               <div class="form-group">
-                                    <label for="horaDesde" class="control-label">Hora desde:</label>
-                                    <input type="text" class="form-control horaDesde" id="horaDesde">
+                                <div id="duracionEvento">
+                                    <div class="col-lg-3 col-xs-3">
+                                       <div class="form-group">
+                                            <label for="horaDesde" class="control-label">Hora desde:</label>
+                                            <input type="text" class="form-control horaDesde" id="horaDesde">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-xs-3">
+                                       <div class="form-group">
+                                            <label for="fechaHasta" class="control-label">Fecha Hasta:</label>
+                                            <input type="text" class="form-control fechaHasta" id="fechaHasta">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-xs-3">
+                                       <div class="form-group">
+                                            <label for="horaHasta" class="control-label">Hora Hasta:</label>
+                                            <input type="text" class="form-control horaHasta" id="horaHasta">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-xs-3">
-                               <div class="form-group">
-                                    <label for="fechaHasta" class="control-label">Fecha Hasta:</label>
-                                    <input type="text" class="form-control fechaHasta" id="fechaHasta">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-xs-3">
-                               <div class="form-group">
-                                    <label for="horaHasta" class="control-label">Hora Hasta:</label>
-                                    <input type="text" class="form-control horaHasta" id="horaHasta">
-                                </div>
-                            </div>
                         </div>
                         <!--fechas y horas-->
-                        
+                        <div class="clear">
                         <div class="col-lg-6 col-xs-6">
                             <div class="form-group">
                               <label for="descripcion" class="control-label">Descripción:</label>

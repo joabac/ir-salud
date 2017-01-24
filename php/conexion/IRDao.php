@@ -93,8 +93,10 @@ class IrDao
         session_start();
         $_SESSION['authenticated'] = "yes";
         $_SESSION['username'] = $username;
-        echo  '{"success":true,"message":""}';
-        die;
+        $_SESSION['nivel'] = 1;
+        echo '{"success":true,"message":"OK"}';
+        exit;
+        
         
         try
         {

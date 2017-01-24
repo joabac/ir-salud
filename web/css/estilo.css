@@ -101,3 +101,10 @@ body, html ,.container-fluid{
   resize: vertical;
   overflow: auto;
 }
+
+.btn-color
+{
+    height: 34px;
+    width: 34px;
+    background-color: inherit!important;
+}
