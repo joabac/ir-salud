@@ -87,22 +87,15 @@ class IrDao
         }
     }
     
+    
     static function authenticateOnDb($challenge,$sessionChallenge,$username)
     {   
+        session_start();
+        $_SESSION['authenticated'] = "yes";
+        $_SESSION['username'] = $username;
+        echo  '{"success":true,"message":""}';
+        die;
         
-        return '{"success":true,"message":""}';
-        if(!filter_var($username, FILTER_VALIDATE_EMAIL))
-        {
-            throw '{error:"Error en parametros."}';
-        }
-        if(!filter_var($challenge, FILTER_SANITIZE_STRING))
-        {
-            throw '{error:"Error en parametros."}';
-        }
-        if(!filter_var($sessionChallenge, FILTER_SANITIZE_STRING))
-        {
-            throw '{error:"Error en parametros."}';
-        }
         try
         {
                 $select = "password";

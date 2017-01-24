@@ -23,7 +23,7 @@ $('#ingresar').on('click', function()
                             dataType: "json",
                             success: function(msg) {
                                 
-                                if(msg)
+                                if(msg.success)
                                     window.location = 'index.php';
                                 else
                                 {
@@ -31,15 +31,8 @@ $('#ingresar').on('click', function()
                                 }
                             },
                             error: function(msg) {
-                                
-                                var mensaje;
-                                if(msg.responseText.includes('SOAP'))
-                                    mensaje = "Error en acceso a servicios.";
-                                else
-                                {   
-                                    mensaje = "Error inesperado.";
-                                }
-                                //mensaje error
+                               
+                                $('#login_error').html('Error inesperado: '+msg.mensaje);
                             },
                             data: parametros
                         });

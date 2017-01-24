@@ -19,6 +19,11 @@ $(document).ready(function() {
             $('#calendar').show();
             IrSalud.calendario();
     });
+    
+    $('#salir').on('click',function()
+    {
+        IrSalud.salir();
+    });
 		
 });
 
@@ -311,6 +316,27 @@ var showEditEvent = function(idEvento)
     $('.nombre').mask('SSSSSSSSSSSSSSSSSSSS');
     $('.apellido').mask('SSSSSSSSSSSSSSSSSSSS');
     
+};
+
+this.salir = function()
+{
+    var parametros = {'parametro':'logout'};
+                    $.ajax({
+                            type: "POST",
+                //            url: "../scripts/utiles.php",
+                            url: "utiles.php",
+                            dataType: "json",
+                            success: function(msg) {
+                                
+                                    window.location = 'login.php';
+                                
+                            },
+                            error: function(msg) {
+                               
+                                $('#login_error').html('Error inesperado: '+msg.mensaje);
+                            },
+                            data: parametros
+                        });
 };
 
 this.calendario = function(){   

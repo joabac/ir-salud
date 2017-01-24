@@ -44,9 +44,9 @@
                 <div class="row">
                     <div class="col-lg-12 col-xs-12 header">
                         <div class="col-lg-3 col-xs-3 logo"></div>
-                        <div class="col-lg-6 col-xs-5"></div>
-                        <div class="col-lg-3 col-xs-4 text-right text-nowrap"><h5>Usuario:<span id="nombre_usuario">Un Usuario</span></h5></div>
-                        <button type="button" class="btn btn-default">Salir</button>
+                        <div class="col-lg-5 col-xs-3"></div>
+                        <div class="col-lg-3 col-xs-4 text-right text-nowrap"><h5>Usuario:<span id="nombre_usuario">"<?php echo $_SESSION['username']?>"</span></h5></div>
+                        <div class="col-lg-1 col-xs-1 text-right text-nowrap"><button id="salir" type="button" class="btn btn-default pull-right">Salir</button></div>
                     </div>
                 </div>
                 <div class="row cuerpo">
@@ -76,7 +76,7 @@
                     <div class="col-lg-2 col-xs-2">
                         <h4 class="modal-title" id="myModalLabel">Título:</h4>
                     </div>
-                    <div class="col-lg-8 col-xs-8">
+                    <div class="col-lg-8 col-xs-8 pull-left">
                             <input id="titulo" type="text" class="form-control">
                     </div>
               </div>
@@ -84,13 +84,13 @@
                   <div class="row">
                     <div class="col-lg-12">
                       <form>
-                        <div class="col-lg-5 col-xs-5">
+                        <div class="col-lg-4 col-xs-4">
                             <div class="form-group">
                               <label for="Nombre" class="control-label">Nombre:</label>
                               <input type="text" class="form-control Nombre" id="nombre">
                             </div>
                         </div>
-                        <div class="col-lg-5 col-xs-5">
+                        <div class="col-lg-4 col-xs-4">
                             <div class="form-group">
                               <label for="apellido" class="control-label">Apellido:</label>
                               <input type="text" class="form-control apellido" id="apellido">
@@ -100,6 +100,12 @@
                             <div class="form-group">
                                 <label for="edadPaciente" class="control-label">Edad:</label>
                                 <input type="text" class="form-control edadPaciente" id="edadPaciente" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-xs-2">
+                            <div class="form-group">
+                                <label for="edadPaciente" class="control-label">Color de Evento:</label>
+                                <button type="button" class="btn btn-default" id="demo2">...</button>
                             </div>
                         </div>
                         <div class="col-lg-4 col-xs-4">  
@@ -155,16 +161,16 @@
                         </div>
                         <!--fechas y horas-->
                         
-                        <div class="col-lg-12 col-xs-12">
+                        <div class="col-lg-6 col-xs-6">
                             <div class="form-group">
                               <label for="descripcion" class="control-label">Descripción:</label>
                               <textarea class="form-control descripcion" id="descripcion" rows="4"></textarea>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-xs-12">
+                        <div class="col-lg-6 col-xs-6">
                             <div class="form-group">
                               <label for="notas" class="control-label">Observaciones:</label>
-                              <textarea class="form-control notas" id="notas" rows="2"></textarea>
+                              <textarea class="form-control notas" id="notas" rows="4"></textarea>
                             </div>
                         </div>
                           <input id="id_evento" type="hidden" name="id" value="" />

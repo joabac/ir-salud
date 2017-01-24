@@ -13,7 +13,12 @@ $resultado = filter_input(INPUT_POST, 'parametro');
 
 //********************************* Admin
 
-
+if($resultado == 'logout')
+{
+    session_unset();
+    echo '{"success":true,"message":"logout"}';
+       
+}
 if($resultado == 'authenticateOnDb')
 {
 
@@ -34,7 +39,7 @@ if($resultado == 'authenticateOnDb')
         return '{error:"Error de parametros"}';
     }
     
-    return IrDao::authenticateOnDb($challenge,$sessionChallenge,$user_name);
+    return json_encode(IrDao::authenticateOnDb($challenge,$sessionChallenge,$user_name));
 }
 
 if($resultado == 'getUsers')
