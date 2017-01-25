@@ -62,10 +62,11 @@ and open the template in the editor.
                     <div class="form-group text-center">
                       <a href="#">Recuperar Contraseña</a>
                     </div>
-                    <div class="col-lg-12 col-xs-12  text-center"><span id="login_error" class="label label-danger text-center"></span></div>
+                    
                     <input id="challenge" type="hidden" name="challenge" value="<?php echo $challenge; ?>" />
-                  </form>        
+                  </form>  
                 </div>  
+                <div class="col-lg-12 col-xs-12  text-center"><span id="login_error" class="label label-danger text-center"></span></div>
               </div>    
             </div>
         </div>

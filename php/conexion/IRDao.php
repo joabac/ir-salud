@@ -1,5 +1,5 @@
 <?php
-include_once("../php/conexion/PdoWrapper.php");
+include_once("PdoWrapper.php");
 
 class IrDao
 {
@@ -90,19 +90,12 @@ class IrDao
     
     static function authenticateOnDb($challenge,$sessionChallenge,$username)
     {   
-        session_start();
-        $_SESSION['authenticated'] = "yes";
-        $_SESSION['username'] = $username;
-        $_SESSION['nivel'] = 1;
-        echo '{"success":true,"message":"OK"}';
-        exit;
-        
         
         try
         {
                 $select = "password";
                 $from = DB_ESQUEMA ."usuarios ";
-                $where = " email = '".$username."' ";
+                $where = " username = '".$username."' ";
                 $sql = "SELECT $select FROM $from WHERE $where";
                 $pdoWrapper = new PdoWrapper();
                 $query =  $pdoWrapper->query($sql);
@@ -111,27 +104,35 @@ class IrDao
                 
                 if($row){
                    
-                    $var_hashed_md5 = md5($sessionChallenge . $row);
+                    $var_hashed_md5 = md5($sessionChallenge.$row);
                     if($var_hashed_md5 === $challenge)
                         {
-                            return '{"success":true,"message":""}';
+                            session_start();
+                            $_SESSION['authenticated'] = "yes";
+                            $_SESSION['username'] = $username;
+                            $_SESSION['nivel'] = 1;
+                            echo '{"success":true,"message":"OK"}';
+                            exit;
                         }
                     else{
-                            return '{"success":false,"message":"Datos incorrectos"}';
+                            echo '{"success":false,"message":"Datos incorrectos."}';
+                            exit;
 
                        }
                 }
                 else 
                 {
-                        $mensaje = "Error al recuperar informacion  authenticateOnDb.";
-                        return '{"success":false,"message":"'.$mensaje.'"}';
+                        $mensaje = "Datos incorrectos.";
+                        echo '{"success":false,"message":"'.$mensaje.'"}';
+                        exit;
 
                 }
                 
         } catch (Exception $ex) {
             
-                $mensaje = "Error al recuperar informacion  EpeDao::getUsers.";
-                return '{"success":false,"message":"'.$mensaje.'"}';        
+                $mensaje = "Error al recuperar información.";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
         }    
     }
     

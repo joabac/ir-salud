@@ -27,12 +27,13 @@ $('#ingresar').on('click', function()
                                     window.location = 'index.php';
                                 else
                                 {
-                                    window.location = 'login.php';
+                                   $('#login_error').html('Error inesperado: '+msg.message);
+                                   //window.location = 'login.php';
                                 }
                             },
                             error: function(msg) {
                                
-                                $('#login_error').html('Error inesperado: '+msg.mensaje);
+                                $('#login_error').html('Error inesperado: '+msg.responseText);
                             },
                             data: parametros
                         });

@@ -1,4 +1,5 @@
 <?php
+include_once 'configdb-prod.php';
 class PdoWrapper {
      /** @var PDO */
     private $db = null;

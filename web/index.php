@@ -47,9 +47,16 @@
                 <div class="row">
                     <div class="col-lg-12 col-xs-12 header">
                         <div class="col-lg-3 col-xs-3 pull-left logo"></div>
-                        <div class="col-lg-6 col-xs-3"></div>
-                        <div class="col-lg-2 col-xs-4 text-right text-nowrap"><span class="pull-right text-right"><h5>Usuario:<span id="nombre_usuario">"<?php echo $_SESSION['username']?>"</span></h5></span></div>
-                        <div class="col-lg-1 col-xs-2 pull-right"><button id="salir" type="button" class="btn btn-default pull-right">Salir</button></div>
+                        <div class="col-lg-6 col-xs-2"></div>
+                        <div class="col-lg-3 col-xs-7 text-right text-nowrap ">
+                            <div class="pull-right">
+                                <span class="text-right pull-left nombre-usuario">
+                                    <h5>Usuario:<span id="nombre-usuario" >"<?php echo $_SESSION['username']?>"</span></h5>
+                                </span>
+                                <button id="salir" type="button" class="btn btn-default pull-right">Salir</button>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="row cuerpo">
