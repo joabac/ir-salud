@@ -7,10 +7,22 @@
 /* global moment */
 
 var IrSalud;
+var estadoEventos = {
+                editado:"editado",
+                nuevo:"nuevo",
+                eliminar:"eliminar"
+            };
+            
+
 
 
 $(document).ready(function() {
-
+    
+    //congelo variables y constantes
+    estadoEventos = Object.freeze(estadoEventos);
+    const id_usuario = $('#id_usuario').val();
+    
+    
     IrSalud = new irSalud();
     IrSalud.init();
 //declaro eventos principales de botonera
@@ -23,10 +35,7 @@ $(document).ready(function() {
     $('#salir').on('click',function()
     {
         IrSalud.salir();
-    });
-  
-
-		
+    });		
 });
 
 
@@ -111,14 +120,49 @@ function irSalud()
             evento.nota=$('#notas').val();
             evento.color= $('select[name="colorpicker-bootstrap3-form"]').val();
            
-            $('#calendar').fullCalendar('updateEvent', evento);
+            var parametros = {'parametro':'guardaEvento','id_usuario':parseInt(id_usuario.value),'info_evento': eventoToJSON(evento),'id_evento':evento.id_evento_DB};
+            $.ajax({
+                    method: "POST",
+                    url: "utiles.php",//__busquedaCalle,
+                    data: parametros,
+                    dataType: "json",
+                    beforeSend: function(jajax) {
+
+                                    },
+                    error: function(res) 
+                    {
+                        mensajeError("Error",res.responseText);
+                        readOnlyEvento(true);
+                        $('#EditarEvento').modal('hide');
+                        $('#editaEvento').attr('disabled',false);
+                        __eventoEnEdicion.estado = '';
+                        //tTODO: restaurar original sin cerrar
+                    },
+                    success: function(res) {
+                        if(res.success === true)
+                        {
+                            mensajeExito("Exito","El evento se guardo correctamente. ");
+                            __eventoEnEdicion.estado = '';
+                            $('#calendar').fullCalendar('updateEvent', evento);
+                            
+                            readOnlyEvento(true);
+                            $('#editaEvento').attr('disabled',false);
+                            $('#EditarEvento').modal('hide');
+                        }
+                        else
+                        {
+                            __eventoEnEdicion.estado = '';
+                            mensajeError("Error",res.message);
+                            readOnlyEvento(true);
+                            $('#editaEvento').attr('disabled',false);
+                            $('#EditarEvento').modal('hide');
+                        }
+
+                    }
+            });
             
-            readOnlyEvento(true);
+            //TODO si salio ok actualizo sino dejo igual
             
-            //TODO: transaccion ajax
-            // if success ok
-            // if error reportar nada cambio restaurar original
-            $('#EditarEvento').modal('hide');
     });
     
     $('#eliminaEvento').on('click',function()
@@ -130,13 +174,53 @@ function irSalud()
             evento = evento[0];
             if(evento.id !== undefined)
             {
-                $('#calendar').fullCalendar( 'removeEvents' , evento.id );
+                var parametros = {'parametro':'eliminaEvento','id_evento':evento.id_evento_DB};
+                $.ajax({
+                        method: "POST",
+                        url: "utiles.php",//__busquedaCalle,
+                        data: parametros,
+                        dataType: "json",
+                        beforeSend: function(jajax) {
+
+                                        },
+                        error: function(res) 
+                        {
+                            mensajeError("Error",res.responseText);
+                            readOnlyEvento(true);
+                            $('#EditarEvento').modal('hide');
+                            $('#editaEvento').attr('disabled',false);
+                            __eventoEnEdicion.estado = '';
+                            //tTODO: restaurar original sin cerrar
+                        },
+                        success: function(res) {
+                            if(res.success === true)
+                            {
+                                mensajeExito("Exito","El evento se eliminó correctamente. ");
+                                __eventoEnEdicion.estado = '';
+                                $('#calendar').fullCalendar( 'removeEvents' , evento.id );
+
+                                readOnlyEvento(true);
+                                $('#editaEvento').attr('disabled',false);
+                                $('#EditarEvento').modal('hide');
+                            }
+                            else
+                            {
+                                __eventoEnEdicion.estado = '';
+                                mensajeError("Error",res.message);
+                                readOnlyEvento(true);
+                                $('#editaEvento').attr('disabled',false);
+                                $('#EditarEvento').modal('hide');
+                            }
+
+                        }
+                });
+                
             }
         }
         else
         {
             if(evento.length > 1){}
-            //todo manejar evebntos de repeticion
+                mensajeInformativo("Informacion","a implementar")
         }
         $('#EditarEvento').modal('hide');
         
@@ -192,9 +276,23 @@ var formateaFecha = function(fecha)
 
 var editaEvento = function()
 {
+    
     readOnlyEvento(false);
+    if(__eventoEnEdicion.length === 1) //evento simple
+    {
+        __eventoEnEdicion[0].estado = estadoEventos.editado;
+    }
+    else //eventos con repeticion
+    {
+        if(evento.length > 1){
+                mensajeInformativo("TODO","a implementar");
+            return;
+        }
+        //todo manejar evebntos de repeticion
+    }
+    
     $('select[name="colorpicker-bootstrap3-form"]').simplecolorpicker('readOnly',false);
-    IrSalud.__eventoEditado = true;
+    __eventoEditado = true;
     
 };
 
@@ -271,8 +369,10 @@ var showEditEvent = function(idEvento)
     }
     else
     {
-        if(evento.length > 1){}
-        //todo manejar evebntos de repeticion
+        if(evento.length > 1){
+                mensajeInformativo("TODO","a implementar");
+            return;
+        }
     }
     
     clearFormEventos();
@@ -380,6 +480,47 @@ this.salir = function()
                         });
 };
 
+var eventoToJSON = function(evento)
+{
+        /*
+         *                              id_evento_DB:2,
+                                        id:100,
+                                        color: '#7ae7bf',
+					title: 'visitar Jose',
+					start: '2017-01-07T11:00:00',
+					end: '2017-01-10T08:00:00',
+                                        nombre:'Jose',
+                                        apellido:'Perez',
+                                        edad:'84',
+                                        telefonoFijo:'03424537807',
+                                        telefonoCelular:'0342155009810',
+                                        direccion:'blas parera 425',
+                                        descripcion:'paciente con ACV aputacion MII',
+                                        nota:'es un departamento timbre 3',
+                                        estado:''
+         */
+        
+        var evento_retorno = {
+            "id_evento_DB":evento.id_evento_DB,
+            "id":evento.id,
+            "color": evento.color,
+            "title": evento.title,
+            "start": moment(evento.start).format('YYYY-MM-DDTHH:mm:ss'),
+            "end": moment(evento.end).format('YYYY-MM-DDTHH:mm:ss'),
+            "nombre":evento.nombre,
+            "apellido":evento.apellido,
+            "edad":evento.edad,
+            "telefonoFijo":evento.telefonoFijo,
+            "telefonoCelular":evento.telefonoCelular,
+            "direccion":evento.direccion,
+            "descripcion":evento.descripcion,
+            "nota":evento.nota,
+            "estado":evento.estado
+        };
+        
+        return JSON.stringify(evento_retorno);
+};
+
 this.calendario = function(){   
     //inicializo agenda
     var fecha_inicial = moment.call().format('YYYY-MM-DD'); 
@@ -389,10 +530,31 @@ this.calendario = function(){
                         eventColor: this.__color,
                         height: $('#contenido').height()-30,
 			header: {
-				left: 'prev,next today',
+				left: 'prev,next today, agregaEvento',
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay,listMonth'
 			},
+                        events: {
+                            url: 'utiles.php',
+                            type: 'POST',
+                            data: {
+                                'parametro': 'loadEventos'
+                                
+                            },
+                            error: function() {
+                                mensajeError("Error", "No se pudo cargar los eventos.");
+                            }
+                            
+                        },
+                        customButtons: {
+                            agregaEvento: {
+                                text: 'Nuevo Evento',
+                                //themeIcon:'plusthick',
+                                click: function() {
+                                    alert('clicked the custom button!');
+                                }
+                            }
+                        },
                         navLinks: true, // can click day/week names to navigate views
 			selectable: false,
 			selectHelper: true,
@@ -435,82 +597,95 @@ this.calendario = function(){
                         nextDayThreshold:'00:00:00',
 			editable: true,
                         locale:'es',
-			eventLimit: true, // allow "more" link when too many events
-			events: [
-				{
-                                        id:01,
-					title: 'All Day Event',
-					start: '2017-01-01'
-				},
-				{
-                                        id:100,
-                                        color: '#7ae7bf',
-					title: 'visitar Jose',
-					start: '2017-01-07T11:00:00',
-					end: '2017-01-10T08:00:00',
-                                        nombre:'Jose',
-                                        apellido:'Perez',
-                                        edad:'84',
-                                        telefonoFijo:'03424537807',
-                                        telefonoCelular:'0342155009810',
-                                        direccion:'blas parera 425',
-                                        descripcion:'paciente con ACV aputacion MII',
-                                        nota:'es un departamento timbre 3'
-				},
-				{
-					id: 999, //id para eventos repetidos
-					title: 'Repeating Event',
-					start: '2017-01-09T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-01-16T16:00:00'
-				},
-				{
-                                        id:02,
-					title: 'Conference',
-					start: '2017-01-11',
-					end: '2017-01-13'
-				},
-				{
-                                        id:03,
-					title: 'Meeting',
-					start: '2017-01-12T10:30:00',
-					end: '2017-01-12T12:30:00'
-				},
-				{
-                                        id:04,
-					title: 'Lunch',
-					start: '2017-01-12T12:00:00'
-				},
-				{
-                                        id:05,
-					title: 'Meeting',
-					start: '2017-01-12T14:30:00'
-				},
-				{
-                                        id:06,
-					title: 'Happy Hour',
-					start: '2017-01-12T17:30:00'
-				},
-				{
-                                        id:07,
-					title: 'Dinner',
-					start: '2017-01-12T20:00:00'
-				},
-				{
-                                        id:08,
-					title: 'Birthday Party',
-					start: '2017-01-13T07:00:00'
-				},
-				{
-                                        id:09,
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2017-01-28'
-				}
-			]
+			eventLimit: true // allow "more" link when too many events
+//			events: [
+//				{
+//                                        id_evento_DB:1,
+//                                        id:01,
+//					title: 'All Day Event',
+//					start: '2017-01-01'
+//				},
+//				{
+//                                        id_evento_DB:5,
+//                                        id:100,
+//                                        color: '#7ae7bf',
+//					title: 'visitar Jose',
+//					start: '2017-01-07T11:00:00',
+//					end: '2017-01-10T08:00:00',
+//                                        nombre:'Jose',
+//                                        apellido:'Perez',
+//                                        edad:'84',
+//                                        telefonoFijo:'03424537807',
+//                                        telefonoCelular:'0342155009810',
+//                                        direccion:'blas parera 425',
+//                                        descripcion:'paciente con ACV aputacion MII',
+//                                        nota:'es un departamento timbre 3',
+//                                        estado:''
+//				},
+//				{
+//                                        id_evento_DB:3,
+//					id: 999, //id para eventos repetidos
+//					title: 'Repeating Event',
+//					start: '2017-01-09T16:00:00'
+//				},
+//				{
+//                                        id_evento_DB:4,
+//					id: 999,
+//					title: 'Repeating Event',
+//					start: '2017-01-16T16:00:00'
+//				},
+//				{
+//                                        id_evento_DB:4,
+//                                        id:02,
+//					title: 'Conference',
+//					start: '2017-01-11',
+//					end: '2017-01-13'
+//				},
+//				{
+//                                        id_evento_DB:5,
+//                                        id:03,
+//					title: 'Meeting',
+//					start: '2017-01-12T10:30:00',
+//					end: '2017-01-12T12:30:00'
+//				},
+//				{
+//                                        id_evento_DB:6  ,
+//                                        id:04,
+//					title: 'Lunch',
+//					start: '2017-01-12T12:00:00'
+//				},
+//				{
+//                                        id_evento_DB:7,
+//                                        id:05,
+//					title: 'Meeting',
+//					start: '2017-01-12T14:30:00'
+//				},
+//				{
+//                                        id_evento_DB:8,
+//                                        id:06,
+//					title: 'Happy Hour',
+//					start: '2017-01-12T17:30:00'
+//				},
+//				{
+//                                        id_evento_DB:9,
+//                                        id:07,
+//					title: 'Dinner',
+//					start: '2017-01-12T20:00:00'
+//				},
+//				{
+//                                        id_evento_DB:10,
+//                                        id:08,
+//					title: 'Birthday Party',
+//					start: '2017-01-13T07:00:00'
+//				},
+//				{
+//                                        id_evento_DB:11,
+//                                        id:09,
+//					title: 'Click for Google',
+//					url: 'http://google.com/',
+//					start: '2017-01-28'
+//				}
+//			]
 		});
             };
     

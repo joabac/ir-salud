@@ -54,7 +54,7 @@ class IrDao
 
             }
         } catch (Exception $ex) {
-                $mensaje = "Error al recuperar informacion  EpeDao::getUnUsuario.";
+                $mensaje = "Error al recuperar información  EpeDao::getUnUsuario.";
                 return '{"success":false,"message":"'.$mensaje.'"}';
                 exit;
         }
@@ -93,24 +93,28 @@ class IrDao
         
         try
         {
-                $select = "password";
+                $select = "password,id_usuario";
                 $from = DB_ESQUEMA ."usuarios ";
                 $where = " username = '".$username."' ";
                 $sql = "SELECT $select FROM $from WHERE $where";
                 $pdoWrapper = new PdoWrapper();
                 $query =  $pdoWrapper->query($sql);
 
-                $row =$query->fetchColumn(0);
+                $row =$query->fetch(PDO::FETCH_ASSOC);
                 
-                if($row){
-                   
-                    $var_hashed_md5 = md5($sessionChallenge.$row);
+                if($row !== false)
+                {
+                    $pass = $row['password'];
+                    $id_usuario = $row['id_usuario'];
+                    
+                    $var_hashed_md5 = md5($sessionChallenge.$pass);
                     if($var_hashed_md5 === $challenge)
                         {
                             session_start();
                             $_SESSION['authenticated'] = "yes";
                             $_SESSION['username'] = $username;
-                            $_SESSION['nivel'] = 1;
+                            $_SESSION['id_usuario'] = $id_usuario;
+                            
                             echo '{"success":true,"message":"OK"}';
                             exit;
                         }
@@ -201,14 +205,16 @@ class IrDao
     }
     
     
-    static function getPerfil($email){
+    static function getPerfil($id_usuario){
     
+        /*
+         * id_usuario, nombre,apellido,username,imagen
+         */
 
         try
         {
                 //metodos implementados aprovechando la ejecucion en bloque de las transaciones
-
-                $sql = "SELECT nombre,apellido,email,usuario,admin,avatarfile FROM ".DB_ESQUEMA."usuarios WHERE email LIKE '".$email."'";
+                $sql = "SELECT id_usuario, nombre,apellido,username,imagen FROM ".DB_ESQUEMA."usuarios WHERE id_usuario=".$id_usuario;
                 $pdoWrapper = new PdoWrapper();
                 $query =  $pdoWrapper->query($sql);
 
@@ -220,12 +226,12 @@ class IrDao
                 }
                 else 
                 {
-                    return '{"success":false}';
+                    echo '{"success":false}';
 
                 }
         
         } catch (Exception $ex) {
-                $mensaje = "Error al recuperar informacion  EpeDao::getPerfil.";
+                $mensaje = "Error al recuperar informacion";
                 return '{"success":false,"message":"'.$mensaje.'"}';
                 
         } 
@@ -303,50 +309,118 @@ static function getConfInicialMapa($user_name)
         
 }
 
-static function guardaEstiloEdicion($email,$id_capa_estilo,$estilo)
+static function guardaEvento($id_usuario,$info_evento,$id_evento)
 {
+ 
+    $evento_json = json_decode($info_evento);
+    if($evento_json->estado === "nuevo")
+    {
+            try
+            {
+                    //metodos implementados aprovechando la ejecucion en bloque de las transaciones
+                    $pdoWrapper = new PdoWrapper();
 
-    $id_usuario = EpeDao::getUnUsuario($email);
-        //metodos implementados aprovechando la ejecucion en bloque de las transaciones
+                    $query2 ="INSERT INTO ".DB_ESQUEMA."\"agendaEventos\"(info_evento,id_usuario) VALUES ('".$info_evento."', ".$id_usuario.");";                
 
-    $perfil_json = json_decode($perfil);
+                    $query = $pdoWrapper->query($query2);
 
-    
-    try
-        {
-                //metodos implementados aprovechando la ejecucion en bloque de las transaciones
-                $query1 = "DELETE FROM ".DB_ESQUEMA."estilo_x_capa_x_usuario WHERE id_usuario = (SELECT id_usuario FROM ".DB_ESQUEMA."usuarios WHERE email like '".$email."') and id_capa = ".$id_capa_estilo.";";
+                    $row =$query->fetchAll();
 
-                $pdoWrapper = new PdoWrapper();
-                $query =  $pdoWrapper->query($query1);
-                
-                $query2 ="INSERT INTO ".DB_ESQUEMA."estilo_x_capa_x_usuario(id_usuario, id_capa,estilo_json) VALUES (".$id_usuario.", ".$id_capa_estilo.",'".$estilo."');";                
+                    if($row)
+                    {
+                            echo '{"success":true}';
+                            exit;
+                    }
+                    else
+                    {
+                         $mensaje = "Error al guardar evento.";
+                         echo '{"success":false,"message":"'.$mensaje.'"}';
+                         exit;
+                    }
 
-                $query =  $pdoWrapper->query($query2);
-                
-                $row =$query->fetchAll();
-                
-                if($row)
-                {
-                        return '{"success":true}';
-                }
-                else
-                {
-                     $mensaje = "Error al guardar el estilo.";
-                     return '{"success":false,"message":"'.$mensaje.'"}';
-                     exit;
-                }
-        
-        } catch (Exception $ex) {
-                $mensaje = "Error al guaradr estilo  EpeDao::guardaEstiloEdicion.";
-                return '{"success":false,"message":"'.$mensaje.'"}';
-                exit;
-        } 
+            } catch (Exception $ex) {
+                    $mensaje = "Error al guaradr evento";
+                    echo '{"success":false,"message":"'.$mensaje.'"}';
+                    exit;
+            } 
+    }
+    if($evento_json->estado === "editado")
+    {    
+         /*id ,info_evento,id_usuario*/
+            try
+            {
+                    //metodos implementados aprovechando la ejecucion en bloque de las transaciones
+                    $query1 = "DELETE FROM ".DB_ESQUEMA."\"agendaEventos\" WHERE id = ".$id_evento.";";
 
+                    $pdoWrapper = new PdoWrapper();
+                    $query =  $pdoWrapper->query($query1);
+                    
+                    $evento_json->estado = '';
+
+                    $query2 ="INSERT INTO ".DB_ESQUEMA."\"agendaEventos\"(info_evento, id_usuario) VALUES ('".$info_evento."', ".$id_usuario.");";                
+
+                    $query = $pdoWrapper->query($query2);
+
+                    $row =$query->fetchAll();
+
+                    if($row)
+                    {
+                            echo '{"success":true}';
+                            exit;
+                    }
+                    else
+                    {
+                         $mensaje = "Error al guardar evento.";
+                         echo '{"success":false,"message":"'.$mensaje.'"}';
+                         exit;
+                    }
+
+            } catch (Exception $ex) {
+                    $mensaje = "Error al guardar evento.";
+                    echo '{"success":false,"message":"'.$mensaje.'"}';
+                    exit;
+            } 
+    }
    
 }
 
-static function load_mapas($email){
+static function eliminaEvento($id_evento)
+{
+
+         /*id ,info_evento,id_usuario*/
+        try
+        {
+                //metodos implementados aprovechando la ejecucion en bloque de las transaciones
+                $query1 = "DELETE FROM ".DB_ESQUEMA."\"agendaEventos\" WHERE id = ".$id_evento.";";
+
+                $pdoWrapper = new PdoWrapper();
+                $query =  $pdoWrapper->query($query1);
+
+                $row =$query->fetchAll();
+
+                if($row)
+                {
+                        echo '{"success":true}';
+                        exit;
+                }
+                else
+                {
+                     $mensaje = "Error al eliminar evento.";
+                     echo '{"success":false,"message":"'.$mensaje.'"}';
+                     exit;
+                }
+
+        } catch (Exception $ex) {
+                $mensaje = "Error al eliminar evento";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
+        } 
+   
+}
+
+
+
+static function loadEventos(){
     
     try
     {

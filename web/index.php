@@ -13,8 +13,7 @@
   
         
 <!--estilos-->
-       
-        
+
         <link href="js/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/fullcalendar-3.1.0/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/fullcalendar-3.1.0/fullcalendar.print.css" rel="stylesheet" type="text/css"/>
@@ -25,6 +24,7 @@
         <link href="js/jquery-simplecolorpicker/jquery.simplecolorpicker-glyphicons.css" rel="stylesheet" type="text/css"/>
         <link href="css/estilo.css" rel="stylesheet" type="text/css"/>
         <link href="css/fonts.css" rel="stylesheet" type="text/css"/>
+        <link href="js/pnotify.custom.min.css" rel="stylesheet" type="text/css"/>
         
 <!--        librerias-->
         <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
@@ -37,11 +37,13 @@
         <script src="js/fullcalendar-3.1.0/locale/es.js" type="text/javascript"></script>
         <script src="js/dateTimePicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
         <script src="js/jquery-simplecolorpicker/jquery.simplecolorpicker.js" type="text/javascript"></script>
+        <script src="js/pnotify.custom.min.js" type="text/javascript"></script>
+        <script src="js/utileria.js" type="text/javascript"></script>
         <script src="js/irsalud_agenda.js" type="text/javascript"></script>
         
     </head>
     <body>
-        
+        <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>" readonly="readonly" />
         <div class="container-fluid">
             
                 <div class="row">
@@ -129,7 +131,7 @@
                                     <option value="#ffb878">Naranja</option>
                                     <option value="#ff887c">Rojo</option>
                                     <option value="#dc2127">Rojo Obscuro</option>
-                                    <option value="#dbadff">Purpura</option>
+                                    <option value="#dbadff">Púrpura</option>
                                     <option value="#D2691E">Chocolate</option>
                                     <option value="#8B3E2F">Coral</option>
                                     <option value="#6495ED">Azul aciano</option>
