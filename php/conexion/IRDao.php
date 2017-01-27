@@ -309,7 +309,7 @@ static function getConfInicialMapa($user_name)
         
 }
 
-static function guardaEvento($id_usuario,$info_evento,$id_evento)
+static function guardaEvento($id_usuario,$info_evento,$id_evento,$start,$end)
 {
  
     $evento_json = json_decode($info_evento);
@@ -320,7 +320,7 @@ static function guardaEvento($id_usuario,$info_evento,$id_evento)
                     //metodos implementados aprovechando la ejecucion en bloque de las transaciones
                     $pdoWrapper = new PdoWrapper();
 
-                    $query2 ="INSERT INTO ".DB_ESQUEMA."\"agendaEventos\"(info_evento,id_usuario) VALUES ('".$info_evento."', ".$id_usuario.");";                
+                    $query2 ="INSERT INTO ".DB_ESQUEMA."\"agendaEventos\"(info_evento,id_usuario,start,end) VALUES ('".$info_evento."', ".$id_usuario."', ".$start."', ".$end.");";
 
                     $query = $pdoWrapper->query($query2);
 
@@ -420,36 +420,65 @@ static function eliminaEvento($id_evento)
 
 
 
-static function loadEventos(){
+static function loadEventos($start,$end){
     
     try
     {
             //metodos implementados aprovechando la ejecucion en bloque de las transaciones
-
-            $sql = 'SELECT capas_usuario.id_capa, capas_usuario.protocolo, nombre_capa, url, version_wms, nombre_fantasia, CAST("singleTile" AS bool),CAST("isBaseLayer" AS bool), "numZoomLevels", CAST(visibility  AS bool),CAST(transparent  AS bool), nivel_de_arbol, estilo_wms, version_wfs, select_control, estilo_wfs, "featureNS"  
-                    FROM (SELECT capas_asociadas.id_capa,protocolo FROM '.DB_ESQUEMA.'capas_asociadas WHERE id_usuario = (select id_usuario from '.DB_ESQUEMA.'usuarios where email like \''.$email.'\')) AS capas_usuario, '.DB_ESQUEMA.'atributos_por_capa
-                    WHERE atributos_por_capa.id_capa = capas_usuario.id_capa ORDER BY "isBaseLayer" DESC'; 
+            
+        
+            $sql = "SELECT id,info_evento,id_usuario
+                    FROM ".DB_ESQUEMA."\"agendaEventos\" ae
+                    WHERE (ae.start , ae.end) OVERLAPS ('".$start."'::DATE, '".$end."'::DATE);"; 
      
             $pdoWrapper = new PdoWrapper();
             $query =  $pdoWrapper->query($sql);
 
-            $row =$query->fetchAll();
 
-            if($row)
+            if($query->rowCount() > 0)
             {
-                    return $row;
+                    
+                   $respuesta = array();
+                    
+                    while($row=$query->fetch(PDO::FETCH_OBJ)) 
+                    {
+                        $unEvento = json_decode($row->info_evento);
+                        $objeto_respuesta = array('id_evento_DB' => $row->id,
+                                    'id'=>$unEvento->id,
+                                    'color'=>$unEvento->color,
+                                    'title'=>$unEvento->title,
+                                    'start'=>$unEvento->start,
+                                    'end'=>$unEvento->end,
+                                    'nombre'=>$unEvento->nombre,
+                                    'apellido'=>$unEvento->apellido,
+                                    'edad'=>$unEvento->edad,
+                                    'telefonoFijo'=>$unEvento->telefonoFijo,
+                                    'telefonoCelular'=>$unEvento->telefonoCelular,
+                                    'direccion'=>$unEvento->direccion,
+                                    'descripcion'=>$unEvento->descripcion,
+                                    'nota'=>$unEvento->nota,
+                                    'estado'=>$unEvento->estado);
+                        
+                        array_push($respuesta,$objeto_respuesta);
+                        
+                    }
+                    
+                        
+                        //$retorno = json_encode($respuesta);
+                        
+                        return $respuesta;
             }
-            else
+            else //sin eventos en el rango
             {
-                 $mensaje = "Error al recuperar capas.";
-                 return '{"success":false,"message":"'.$mensaje.'"}';
-                 exit;
+                $respuesta = array();
+                
+                return $respuesta;
             }
 
 
     } 
     catch (Exception $ex) {
-            $mensaje = "Error al recuperar capas  EpeDao::load_mapas.";
+            $mensaje = "Error al recuperar eventos";
             return '{"success":false,"message":"'.$mensaje.'"}';
     }                                        
 }

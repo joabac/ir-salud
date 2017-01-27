@@ -11,7 +11,8 @@
         <meta charset='utf-8' />
         <title>IR Salud</title>
   
-        
+        <link rel="icon" href="img/iconos/favicon.ico" sizes="16x16">
+        <link rel="icon" href="img/iconos/favicon.ico" sizes="32x32">  
 <!--estilos-->
 
         <link href="js/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -26,7 +27,7 @@
         <link href="css/fonts.css" rel="stylesheet" type="text/css"/>
         <link href="js/pnotify.custom.min.css" rel="stylesheet" type="text/css"/>
         
-<!--        librerias-->
+<!--        librerías-->
         <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
         <script src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js" type="text/javascript"></script>
         <script src="js/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>

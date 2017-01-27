@@ -22,7 +22,8 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>IR Salud</title>
-                
+        <link rel="icon" href="img/iconos/favicon.ico" sizes="16x16">
+        <link rel="icon" href="img/iconos/favicon.ico" sizes="32x32">              
         <link href="js/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <link href="js/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet" type="text/css"/>

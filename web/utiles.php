@@ -65,7 +65,34 @@ if($resultado == 'guardaEvento')
     $id_evento = (filter_input(INPUT_POST,'id_evento',FILTER_SANITIZE_STRING) == "")?null:filter_input(INPUT_POST,'id_evento',FILTER_SANITIZE_STRING) ;
     $info_evento = (filter_input(INPUT_POST,'info_evento',FILTER_DEFAULT) == "")?null:filter_input(INPUT_POST,'info_evento',FILTER_DEFAULT) ;
     
-    return IrDao::guardaEvento($id_usuario,$info_evento,$id_evento);
+    $start_sanit = (filter_input(INPUT_POST,'start',FILTER_SANITIZE_STRING) == "")?null:filter_input(INPUT_POST,'start',FILTER_SANITIZE_STRING);
+    $end_sanit = (filter_input(INPUT_POST,'end',FILTER_SANITIZE_STRING) == "")?null:filter_input(INPUT_POST,'end',FILTER_SANITIZE_STRING) ;
+    
+    $start = filter_var($start_sanit,FILTER_VALIDATE_REGEXP, array('options' =>array('regexp'=>'/\d{4}-\d{2}-\d{2}/'))) ;
+    $end = filter_var($end_sanit,FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>'/\d{4}-\d{2}-\d{2}/')));
+    
+    if($start == false)
+    {
+        return '{error:"Error de parametros"}';
+    }
+    if($end === false)
+    {
+        return '{error:"Error de parametros"}';
+    }
+    
+    if($id_usuario == null)
+    {
+        return '{error:"Error de parametros"}';
+    }
+    if($id_evento === null)
+    {
+        return '{error:"Error de parametros"}';
+    }
+    if($info_evento === null)
+    {
+        return '{error:"Error de parametros"}';
+    }
+    return IrDao::guardaEvento($id_usuario,$info_evento,$id_evento,$start,$end);
     
 }
 
@@ -97,44 +124,53 @@ if($resultado == 'guardaCapaEdicion')
 
 //************************************ Editor
 
-if($resultado == 'guardaEvento')
-{
-    
-    $id_usuario = (filter_input(INPUT_POST,'id_usuario',FILTER_SANITIZE_NUMBER_INT) == "")?null:filter_input(INPUT_POST,'id_usuario',FILTER_SANITIZE_NUMBER_INT) ;
-    $id_evento = (filter_input(INPUT_POST,'id_evento',FILTER_SANITIZE_NUMBER_INT) == "")?null:filter_input(INPUT_POST,'id_evento',FILTER_SANITIZE_NUMBER_INT) ;
-    $info_evento = (filter_input(INPUT_POST,'info_evento',FILTER_SANITIZE_STRING) == "")?null:filter_input(INPUT_POST,'info_evento',FILTER_SANITIZE_STRING) ;
-   
-    return json_encode(IrDao::guardaEvento($id_usuario,$info_evento,$id_evento)); 
-}
 
 if($resultado == 'eliminaEvento')
 {
     $id_evento = (filter_input(INPUT_POST,'id_evento',FILTER_SANITIZE_NUMBER_INT) == "")?null:filter_input(INPUT_POST,'id_evento',FILTER_SANITIZE_NUMBER_INT) ;
+
+    if($id_evento === null)
+    {
+        return '{error:"Error de parametros"}';
+    }
     
     return json_encode(IrDao::eliminaEvento($id_evento)); 
 }
 
 if($resultado == 'loadEventos')
 {    
-    return json_encode("[{
-                                        id_evento_DB:5,
-                                        id:100,
-                                        color: '#7ae7bf',
-					title: 'visitar Jose',
-					start: '2017-01-07T11:00:00',
-					end: '2017-01-10T08:00:00',
-                                        nombre:'Jose',
-                                        apellido:'Perez',
-                                        edad:'84',
-                                        telefonoFijo:'03424537807',
-                                        telefonoCelular:'0342155009810',
-                                        direccion:'blas parera 425',
-                                        descripcion:'paciente con ACV aputacion MII',
-                                        nota:'es un departamento timbre 3',
-                                        estado:''
-				}]");
     
-    return json_encode(IrDao::loadEventos());
+    $start_sanit = (filter_input(INPUT_POST,'start',FILTER_SANITIZE_STRING) == "")?null:filter_input(INPUT_POST,'start',FILTER_SANITIZE_STRING);
+    $end_sanit = (filter_input(INPUT_POST,'end',FILTER_SANITIZE_STRING) == "")?null:filter_input(INPUT_POST,'end',FILTER_SANITIZE_STRING) ;
+    
+    $start = filter_var($start_sanit,FILTER_VALIDATE_REGEXP, array('options' =>array('regexp'=>'/\d{4}-\d{2}-\d{2}/'))) ;
+    $end = filter_var($end_sanit,FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>'/\d{4}-\d{2}-\d{2}/')));
+    
+    if($start == false)
+    {
+        return '{error:"Error de parametros"}';
+    }
+    if($end === false)
+    {
+        return '{error:"Error de parametros"}';
+    }
+    
+//    $respuesta = array();
+//
+//
+//    $objeto_respuesta = array('id_evento_DB' => 5,'id'=>100,'color'=>'#7ae7bf','title'=>'visitar Jose','start'=>'2017-01-07T11:00:00','end'=>'2017-01-10T08:00:00','nombre'=>'Jose','apellido'=>'Perez','edad'=>84,'telefonoFijo'=>'03424537807','telefonoCelular'=>'0342155009810','direccion'=>'blas parera 425','descripcion'=>'paciente con ACV aputacion MII','nota'=>'es un departamento timbre 3','estado'=>'');
+//    
+//    
+//    
+//    array_push($respuesta,$objeto_respuesta);
+//    
+//    $retorno = json_encode($respuesta);
+//    
+//    echo $retorno;
+//    exit;
+    
+    echo json_encode(IrDao::loadEventos($start,$end));
+    exit;
 }
 
 if($resultado == 'getLimiteVisual')
@@ -180,7 +216,5 @@ if($resultado == 'getConfInicialMapa')
 else
 {   
     return;
-
 }
-
 ?>

@@ -119,8 +119,14 @@ function irSalud()
             evento.descripcion=$('#descripcion').val();
             evento.nota=$('#notas').val();
             evento.color= $('select[name="colorpicker-bootstrap3-form"]').val();
+            evento.borderColor= $('select[name="colorpicker-bootstrap3-form"]').val();
            
-            var parametros = {'parametro':'guardaEvento','id_usuario':parseInt(id_usuario.value),'info_evento': eventoToJSON(evento),'id_evento':evento.id_evento_DB};
+            var parametros = {'parametro':'guardaEvento',
+                              'id_usuario':parseInt(id_usuario.value),
+                              'info_evento': eventoToJSON(evento),
+                              'id_evento':evento.id_evento_DB,
+                              'start':moment(evento.start).format('YYYY-MM-DD'),
+                              'end':moment(evento.end).format('YYYY-MM-DD')};
             $.ajax({
                     method: "POST",
                     url: "utiles.php",//__busquedaCalle,
@@ -501,9 +507,10 @@ var eventoToJSON = function(evento)
          */
         
         var evento_retorno = {
-            "id_evento_DB":evento.id_evento_DB,
+//            "id_evento_DB":evento.id_evento_DB,
             "id":evento.id,
             "color": evento.color,
+            "borderColor":evento.borderColor,
             "title": evento.title,
             "start": moment(evento.start).format('YYYY-MM-DDTHH:mm:ss'),
             "end": moment(evento.end).format('YYYY-MM-DDTHH:mm:ss'),
@@ -528,6 +535,7 @@ this.calendario = function(){
     $('#calendar').fullCalendar({
 			theme: true,
                         eventColor: this.__color,
+                        eventBorderColor:this.__color,
                         height: $('#contenido').height()-30,
 			header: {
 				left: 'prev,next today, agregaEvento',
