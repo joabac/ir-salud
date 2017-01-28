@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-/* global moment */
-
 var IrSalud;
 var estadoEventos = {
                 editado:"editado",
@@ -68,6 +66,12 @@ function irSalud()
     {
         console.log('guarda');
         
+        if(validaEvento() === false)
+        {
+                mensajeError("Error","Verifique los campos con errores");
+                return;
+        }
+        return;
         evento = __eventoEnEdicion;
         if(evento.length === 1)
         {
@@ -154,6 +158,7 @@ function irSalud()
                             readOnlyEvento(true);
                             $('#editaEvento').attr('disabled',false);
                             $('#EditarEvento').modal('hide');
+                            __eventoEnEdicion = undefined;
                         }
                         else
                         {
@@ -270,6 +275,64 @@ function irSalud()
 
     $('[data-toggle="tooltip"]').tooltip();
 
+};
+
+var validaEvento = function()
+{
+        var valido = true;
+        $('.form-group').removeClass('has-error');
+        $('.form-titulo').removeClass('has-error');
+        if(__eventoEnEdicion.length === 1)
+        {
+            evento = __eventoEnEdicion[0];
+        }
+        else
+        {
+            if(__eventoEnEdicion.length > 1){}
+            //todo manejar evebntos de repeticion
+        }
+        var desde = $('#fechaDesde').datetimepicker({
+                    format: 'L'
+        }).data("DateTimePicker").date();
+       
+        var nuevoStart; // = moment(formateaFecha(desde)+'T'+$('#horaDesde').val()+':00');
+        
+        if(evento.allDay === false)
+        {
+            nuevoStart = moment(formateaFecha(desde)+'T'+$('#horaDesde').val()+':00');
+            var hasta = $('#fechaHasta').datetimepicker({
+                    format: 'L'
+            }).data("DateTimePicker").date(); 
+            
+            var nuevoHasta = moment(formateaFecha(hasta)+'T'+$('#horaHasta').val()+':00');
+        }
+        else
+        {
+            nuevoStart = moment(formateaFecha(desde)+'T'+'00:00:00');
+        }
+        
+    if( nuevoHasta < nuevoStart)
+    {
+        $('#fechaHasta').parent('.form-group').addClass('has-error');
+        $('#horaHasta').parent('.form-group').addClass('has-error');
+        mensajeError("Error","La fecha y hora final no puede ser menor a la inicial");
+        valido= false;
+    }
+    if( nuevoHasta > nuevoStart)
+    {
+        $('#fechaDesde').parent('.form-group').addClass('has-error');
+        $('#horaDesde').parent('.form-group').addClass('has-error');
+        mensajeError("Error","La fecha y hora inicial no puede ser mayor a la final.");
+        valido= false;
+    }
+    if( $('#titulo').val().trim() === "")
+    {
+        $('#titulo').parent('.form-titulo').addClass('has-error');
+        mensajeError("Error","El titulo no puede estar vacío.");
+        valido= false;
+    }
+    
+    return valido;
 };
 
 var formateaFecha = function(fecha)

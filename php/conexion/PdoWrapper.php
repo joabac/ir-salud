@@ -33,7 +33,23 @@ class PdoWrapper {
         throw new \Exception('DB error [' . $errorInfo[0] . ', ' . $errorInfo[1] . ']: ' . $errorInfo[2]);
     }
     
+    public function initTransaction()
+    {
+       return $this->getDb()->beginTransaction();
+
+    }
+    
+    public function commit()
+    {
+        return $this->getDb()->commit();
+    }
       
+    public function rollback()
+    {
+        return $this->getDb()->rollBack();
+    }
+    
+
     /**
      * @return PDOStatement
      */

@@ -89,7 +89,7 @@
                     <div class="col-lg-2 col-xs-2">
                         <h4 class="modal-title" id="myModalLabel">Título:</h4>
                     </div>
-                    <div class="col-lg-8 col-xs-8 pull-left">
+                    <div class="col-lg-8 col-xs-8 pull-left form-titulo">
                             <input id="titulo" type="text" class="form-control">
                     </div>
               </div>
@@ -167,7 +167,7 @@
                             <label class="col-lg-2 col-xs-2 text-nowrap"><input id="diaCompleto" class="col-lg-2 col-xs-2 pull-left" type="checkbox" name="diaCompleto" value="false" /> Todo el día</label> 
                         </div>
                           <!--fechas y horas-->
-                        <div class="col-lg-12 col-xs-12">
+                        <div class="col-lg-12 col-xs-12 ">
                                 <div class="col-lg-3 col-xs-3">
                                    <div class="form-group">
                                         <label for="fechaDesde" class="control-label">Fecha desde:</label>
