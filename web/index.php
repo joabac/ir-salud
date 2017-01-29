@@ -221,7 +221,7 @@
                 <button id="eliminaEvento" type="button" class="btn btn-default" aria-label="Eliminar" title="Eliminar Evento">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button id="cierraEvento" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 <button id="guardaEvento" type="button" class="btn btn-primary">Guardar Evento</button>
               </div>
             </div>

@@ -1,4 +1,4 @@
-var espera = 3000;
+var espera = 5000;
 
 function mensajeAtencion(titulo, mensaje)
 {
@@ -31,7 +31,8 @@ function mensajeError(titulo, mensaje)
                 hide: true,
                 delay: espera,
                 closer: true,
-                shadow: true
+                shadow: true,
+                width: "350px"
         });
          
 

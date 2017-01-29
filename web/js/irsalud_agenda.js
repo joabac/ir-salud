@@ -62,13 +62,20 @@ function irSalud()
             
     });
     
+    $('#cierraEvento').on('click',function()
+    {
+        $('.form-group').removeClass('has-error');
+        $('.form-titulo').removeClass('has-error');
+    });
+    
     $('#guardaEvento').on('click',function()
     {
         console.log('guarda');
         
-        if(validaEvento() === false)
+        var validacion = validaEvento();
+        if(validacion.succes === false) //vlidaciones del formulario
         {
-                mensajeError("Error","Verifique los campos con errores");
+                mensajeError("Error",validacion.mensaje);
                 return;
         }
         return;
@@ -280,6 +287,7 @@ function irSalud()
 var validaEvento = function()
 {
         var valido = true;
+        var mensaje="";
         $('.form-group').removeClass('has-error');
         $('.form-titulo').removeClass('has-error');
         if(__eventoEnEdicion.length === 1)
@@ -315,24 +323,50 @@ var validaEvento = function()
     {
         $('#fechaHasta').parent('.form-group').addClass('has-error');
         $('#horaHasta').parent('.form-group').addClass('has-error');
-        mensajeError("Error","La fecha y hora final no puede ser menor a la inicial");
+        mensaje += "La fecha y hora final no puede ser menor a la inicial\n";
+       // mensajeError("Error","La fecha y hora final no puede ser menor a la inicial");
         valido= false;
     }
-    if( nuevoHasta > nuevoStart)
+    if( nuevoStart > nuevoHasta)
     {
         $('#fechaDesde').parent('.form-group').addClass('has-error');
         $('#horaDesde').parent('.form-group').addClass('has-error');
-        mensajeError("Error","La fecha y hora inicial no puede ser mayor a la final.");
+        //mensajeError("Error","La fecha y hora inicial no puede ser mayor a la final.");
+        mensaje += "La fecha y hora inicial no puede ser mayor a la final.\n";
         valido= false;
     }
     if( $('#titulo').val().trim() === "")
     {
         $('#titulo').parent('.form-titulo').addClass('has-error');
-        mensajeError("Error","El titulo no puede estar vacío.");
+        //mensajeError("Error","");
+        mensaje += "El titulo no puede estar vacío.\n";
+        valido= false;
+    }
+    if( $('#nombre').val().trim() === "")
+    {
+        $('#nombre').parent('.form-group').addClass('has-error');
+        //mensajeError("Error",);
+        mensaje+= "El nombre no puede estar vacío.\n";
+        valido= false;
+    }
+    if( $('#apellido').val().trim() === "")
+    {
+        $('#apellido').parent('.form-group').addClass('has-error');
+        //mensajeError("Error",);
+        mensaje += "El apellido no puede estar vacío.\n";
+        valido= false;
+    }
+    if( $('#telefono-fijo').val().trim() === "" && $('#telefono-celular').val().trim() === "")
+    {
+        $('#telefono-fijo').parent('.form-group').addClass('has-error');
+        $('#telefono-celular').parent('.form-group').addClass('has-error');
+        //mensajeError("Error",);
+        mensaje += "Debe completar al menos un teléfono de contacto.\n";
         valido= false;
     }
     
-    return valido;
+    
+    return {'succes':valido,'mensaje':mensaje};
 };
 
 var formateaFecha = function(fecha)
