@@ -214,25 +214,28 @@ class IrDao
         try
         {
                 //metodos implementados aprovechando la ejecucion en bloque de las transaciones
-                $sql = "SELECT id_usuario, nombre,apellido,username,imagen FROM ".DB_ESQUEMA."usuarios WHERE id_usuario=".$id_usuario;
+                $sql = "SELECT id_usuario ,nombre ,apellido,username ,imagen FROM ".DB_ESQUEMA."usuarios WHERE id_usuario=".$id_usuario;
                 $pdoWrapper = new PdoWrapper();
                 $query =  $pdoWrapper->query($sql);
 
-                $row =$query->fetchAll();
+                $row =$query->fetch(PDO::FETCH_OBJ);
                 
                 if($row)
                 {
-                        return $row;
+                        echo '{"success":true,"perfil":'.json_encode($row).'}';
+                        exit;
                 }
                 else 
                 {
-                    echo '{"success":false}';
+                    echo '{"success":false,"message":"Error al recuperar información"}';
+                    exit;
 
                 }
         
         } catch (Exception $ex) {
-                $mensaje = "Error al recuperar informacion";
-                return '{"success":false,"message":"'.$mensaje.'"}';
+                $mensaje = "Error al recuperar información";
+                echo '{"success":false,"message":"'.$mensaje.'"}';
+                exit;
                 
         } 
 }
@@ -319,27 +322,45 @@ static function guardaEvento($id_usuario,$info_evento,$id_evento,$start,$end)
             {
                     //metodos implementados aprovechando la ejecucion en bloque de las transaciones
                     $pdoWrapper = new PdoWrapper();
+                    $pdoWrapper->initTransaction();
+                    $evento_json->estado = '';
+                    
+                    $info_evento = json_encode($evento_json);
 
-                    $query2 ="INSERT INTO ".DB_ESQUEMA."\"agendaEventos\"(info_evento,id_usuario,startevent,endevent) VALUES ('".$info_evento."', ".$id_usuario.", '".$start."'::DATE, '".$end."'::DATE);";
+                    $query2 ="INSERT INTO ".DB_ESQUEMA."\"agendaEventos\"(info_evento,id_usuario,startevent,endevent) VALUES ('".$info_evento."', ".$id_usuario.", '".$start."'::DATE, '".$end."'::DATE) RETURNING id;";
 
                     $query = $pdoWrapper->query($query2);
 
-                    $row =$query->fetchAll();
-
+                    $row = $row=$query->fetch(PDO::FETCH_OBJ);
+                    
                     if($row)
                     {
-                            echo '{"success":true}';
-                            exit;
+                            if($pdoWrapper->commit()===false)
+                            {                                  
+                                $pdoWrapper->rollback();
+                                $mensaje = "Error al guardar evento.";
+                                echo '{"success":false,"message":"'.$mensaje.'"}';
+                                exit;
+                            }
+                            else
+                            {
+                                
+                                echo '{"success":true, "id_evento_DB":'.$row->id.'}';
+                                exit;
+                            }
+                            
                     }
                     else
                     {
-                         $mensaje = "Error al guardar evento.";
-                         echo '{"success":false,"message":"'.$mensaje.'"}';
-                         exit;
+                        $pdoWrapper->rollback();
+                        $mensaje = "Error al guardar evento.";
+                        echo '{"success":false,"message":"'.$mensaje.'"}';
+                        exit;
                     }
 
             } catch (Exception $ex) {
-                    $mensaje = "Error al guaradr evento";
+                    $pdoWrapper->rollback();
+                    $mensaje = "Error al guardar evento";
                     echo '{"success":false,"message":"'.$mensaje.'"}';
                     exit;
             } 
@@ -360,6 +381,8 @@ static function guardaEvento($id_usuario,$info_evento,$id_evento,$start,$end)
                         $query =  $pdoWrapper->query($query1);
 
                         $evento_json->estado = '';
+                    
+                        $info_evento = json_encode($evento_json);
 
                         $query2 ="INSERT INTO ".DB_ESQUEMA."\"agendaEventos\"(info_evento,id_usuario,startevent,endevent) VALUES ('".$info_evento."', ".$id_usuario.", '".$start."'::DATE, '".$end."'::DATE);";                
 

@@ -1,4 +1,4 @@
---
+﻿--
 -- PostgreSQL database dump
 --
 
@@ -27,7 +27,7 @@ CREATE DATABASE irsalud WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE =
 
 ALTER DATABASE irsalud OWNER TO "irOwner";
 
-\connect irsalud
+connect irsalud
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;

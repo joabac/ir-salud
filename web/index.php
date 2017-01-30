@@ -54,7 +54,8 @@
                         <div class="col-lg-3 col-xs-7 text-right text-nowrap ">
                             <div class="pull-right">
                                 <span class="text-right pull-left nombre-usuario">
-                                    <h5>Usuario:<span id="nombre-usuario" >"<?php echo $_SESSION['username']?>"</span></h5>
+                                    <!--<h5>Usuario:<span id="nombre-usuario" >"<?php echo $_SESSION['username']?>"</span></h5>-->
+                                    <img id="perfil" src="" alt="Perfil" class="img-circle perfil" title="<?php echo $_SESSION['username']?>">
                                 </span>
                                 <button id="salir" type="button" class="btn btn-default pull-right">Salir</button>
                             </div>
@@ -80,7 +81,9 @@
         </div>
         
        
-        <!-- Modal -->
+        <!-- Modal confirma eliminacion-->
+        
+<!--        modal evento-->
         <div class="modal fade" id="EditarEvento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -90,7 +93,7 @@
                         <h4 class="modal-title" id="myModalLabel">Título:</h4>
                     </div>
                     <div class="col-lg-8 col-xs-8 pull-left form-titulo">
-                            <input id="titulo" type="text" class="form-control" placeholder="Ingrese un titulo.">
+                            <input id="titulo" type="text" class="form-control" placeholder="Ingrese un título.">
                     </div>
               </div>
               <div class="modal-body">

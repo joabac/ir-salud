@@ -49,7 +49,10 @@ class PdoWrapper {
         return $this->getDb()->rollBack();
     }
     
-
+    public function lastInsertId($col)
+    {
+            return $this->getDb()->lastInsertId($col);
+    }
     /**
      * @return PDOStatement
      */

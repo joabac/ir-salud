@@ -73,28 +73,32 @@ if($resultado == 'guardaEvento')
     
     if($start == false)
     {
-        echo '{error:"Error de parametros"}';
+        echo '{"success":false, "message":"Error de parametros"}';
         exit;
     }
     if($end === false)
     {
-        echo '{error:"Error de parametros"}';
+        echo '{"success":false, "message":"Error de parametros"}';
         exit;
     }
     
     if($id_usuario == null)
     {
-        echo '{error:"Error de parametros"}';
+        echo '{"success":false, "message":"Error de parametros"}';
         exit;
     }
     if($id_evento === null)
     {
-        echo '{error:"Error de parametros"}';
-        exit;
+        $evento = json_decode($info_evento);
+        if($evento->estado !== "nuevo")
+        {    
+            echo '{"success":false, "message":"Error de parametros"}';
+            exit;
+        }
     }
     if($info_evento === null)
     {
-        echo '{error:"Error de parametros"}';
+        echo '{"success":false, "message":"Error de parametros"}';
         exit;
     }
     return IrDao::guardaEvento($id_usuario,$info_evento,$id_evento,$start,$end);
@@ -200,7 +204,7 @@ if($resultado == 'getTipoCapa')
 
 if($resultado == 'getPerfil')
 {
-    $id_usuario = (filter_input(INPUT_POST,'$id_usuario',FILTER_SANITIZE_NUMBER_INT) == "")?null:filter_input(INPUT_POST,'$id_usuario',FILTER_SANITIZE_NUMBER_INT) ;
+    $id_usuario = (filter_input(INPUT_POST,'id_usuario',FILTER_SANITIZE_NUMBER_INT) == "")?null:filter_input(INPUT_POST,'id_usuario',FILTER_SANITIZE_NUMBER_INT) ;
     return json_encode(IrDao::getPerfil($id_usuario)); 
 }
 

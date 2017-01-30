@@ -20,6 +20,8 @@ $(document).ready(function() {
     
     IrSalud = new irSalud();
     IrSalud.init();
+    IrSalud.getPerfil();
+    
 //declaro eventos principales de botonera
     $('#agenda').on('click',function()
     {
@@ -156,9 +158,10 @@ function irSalud()
                         if(res.success === true)
                         {
                             mensajeExito("Exito","El evento se guardo correctamente. ");
-                            if(__eventoEnEdicion.estado === estadoEventos.nuevo)
+                            if(evento.estado === estadoEventos.nuevo)
                             {
-                                __eventoEnEdicion.estado = '';
+                                evento.estado = '';
+                                evento.id_evento_DB = res.id_evento_DB;
                                 $('#calendar').fullCalendar('renderEvent', evento,true);
                             }
                             else{
@@ -189,8 +192,60 @@ function irSalud()
     
     $('#eliminaEvento').on('click',function()
     {
-        var evento = __eventoEnEdicion;
+         //Confirmar eliminar
+    });
     
+    $('#botonConfirma').on('click', function(e) {
+        e.preventDefault();
+        eliminaEvento();
+        
+    });
+    
+    
+    $('#diaCompleto').on('change',function()
+    {
+        if($('#diaCompleto').is(":checked") === true)
+        {    
+            $('#duracionEvento').hide();
+            $('label[for=fechaDesde]').html("Fecha del evento:");
+        }
+        else
+        {
+            $('#duracionEvento').show();
+            $('label[for=fechaDesde]').html("Fecha desde:");
+            
+            $('#fechaDesde').datetimepicker({
+                        format: 'L'
+            }).data("DateTimePicker");
+
+            $('#fechaHasta').datetimepicker({
+                            format: 'L'
+            }).data("DateTimePicker");
+
+            $('#horaDesde').datetimepicker({
+                            format: 'HH:mm'
+            }).data("DateTimePicker");
+
+            $('#horaHasta').datetimepicker({
+                            format: 'HH:mm'
+            }).data("DateTimePicker");
+            }
+    });
+ 
+   
+//    $('#EditarEvento').on('hidden.bs.modal', function (e) {
+//        console.log(e);
+//    });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+};
+
+var eliminaEvento = function()
+{
+    var evento = __eventoEnEdicion;
+    
+        return;
         if(evento.length === 1)
         {
             evento = evento[0];
@@ -245,47 +300,38 @@ function irSalud()
                 mensajeInformativo("Informacion","a implementar")
         }
         $('#EditarEvento').modal('hide');
-        
-             
-    });
-    
-    $('#diaCompleto').on('change',function()
-    {
-        if($('#diaCompleto').is(":checked") === true)
-        {    
-            $('#duracionEvento').hide();
-            $('label[for=fechaDesde]').html("Fecha del evento:");
-        }
-        else
-        {
-            $('#duracionEvento').show();
-            $('label[for=fechaDesde]').html("Fecha desde:");
-            
-            $('#fechaDesde').datetimepicker({
-                        format: 'L'
-            }).data("DateTimePicker");
+}
 
-            $('#fechaHasta').datetimepicker({
-                            format: 'L'
-            }).data("DateTimePicker");
+this.getPerfil = function()
+{
+    var id =parseInt(id_usuario.value);
+    var parametros = {'parametro':'getPerfil','id_usuario':id};
+                $.ajax({
+                        method: "POST",
+                        url: "utiles.php",//__busquedaCalle,
+                        data: parametros,
+                        dataType: "json",
+                        error: function(res) 
+                        {
+                            mensajeError("Error",res.responseText);
+                           
+                        },
+                        success: function(res) {
+                            
+                            if(res.success === true)
+                            {
+                                console.log(res.perfil);
+                                $('#perfil').attr('src',res.perfil.imagen);
+                            }
+                            else
+                            {
+                               
+                                mensajeError("Error",res.message);
+                                
+                            }
 
-            $('#horaDesde').datetimepicker({
-                            format: 'HH:mm'
-            }).data("DateTimePicker");
-
-            $('#horaHasta').datetimepicker({
-                            format: 'HH:mm'
-            }).data("DateTimePicker");
-            }
-    });
- 
-   
-//    $('#EditarEvento').on('hidden.bs.modal', function (e) {
-//        console.log(e);
-//    });
-
-    $('[data-toggle="tooltip"]').tooltip();
-
+                        }
+                });
 };
 
 var validaEvento = function()
@@ -366,6 +412,13 @@ var validaEvento = function()
         $('#telefono-celular').parent('.form-group').addClass('has-error');
         //mensajeError("Error",);
         mensaje += "Debe completar al menos un teléfono de contacto.\n";
+        valido= false;
+    }
+    if( $('#edadPaciente').val() > 150)
+    {
+        $('#edadPaciente').parent('.form-group').addClass('has-error');
+        //mensajeError("Error",);
+        mensaje += "La edad esta fuera del rango permitido.\n";
         valido= false;
     }
     
@@ -481,7 +534,14 @@ var nuevoEvento = function()
                                  "allDay":false
                                 });
 
-
+    $('#horaDesde').mask('00:00');
+    $('#horaHasta').mask('00:00');
+    
+    $('.edadPaciente').mask('000');
+    $('.telefono-fijo').mask('0#');
+    $('.telefono-celular').mask('0#');
+    $('.nombre').mask('SSSSSSSSSSSSSSSSSSSS');
+    $('.apellido').mask('SSSSSSSSSSSSSSSSSSSS');
     
 };
 
@@ -524,6 +584,10 @@ var showEditEvent = function(idEvento)
     clearFormEventos();
     //bloqueo los campos
     readOnlyEvento(true);
+    if(evento.id_evento_DB !== undefined)
+    {
+        $('#eliminaEvento').attr('disabled',false);
+    }
     $('#editaEvento').attr('disabled',false);
     
     //carga de valores leidos
