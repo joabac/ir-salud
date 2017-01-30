@@ -73,24 +73,29 @@ if($resultado == 'guardaEvento')
     
     if($start == false)
     {
-        return '{error:"Error de parametros"}';
+        echo '{error:"Error de parametros"}';
+        exit;
     }
     if($end === false)
     {
-        return '{error:"Error de parametros"}';
+        echo '{error:"Error de parametros"}';
+        exit;
     }
     
     if($id_usuario == null)
     {
-        return '{error:"Error de parametros"}';
+        echo '{error:"Error de parametros"}';
+        exit;
     }
     if($id_evento === null)
     {
-        return '{error:"Error de parametros"}';
+        echo '{error:"Error de parametros"}';
+        exit;
     }
     if($info_evento === null)
     {
-        return '{error:"Error de parametros"}';
+        echo '{error:"Error de parametros"}';
+        exit;
     }
     return IrDao::guardaEvento($id_usuario,$info_evento,$id_evento,$start,$end);
     

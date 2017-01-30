@@ -11,9 +11,6 @@ var estadoEventos = {
                 eliminar:"eliminar"
             };
             
-
-
-
 $(document).ready(function() {
     
     //congelo variables y constantes
@@ -78,7 +75,7 @@ function irSalud()
                 mensajeError("Error",validacion.mensaje);
                 return;
         }
-        return;
+        
         evento = __eventoEnEdicion;
         if(evento.length === 1)
         {
@@ -159,8 +156,15 @@ function irSalud()
                         if(res.success === true)
                         {
                             mensajeExito("Exito","El evento se guardo correctamente. ");
-                            __eventoEnEdicion.estado = '';
-                            $('#calendar').fullCalendar('updateEvent', evento);
+                            if(__eventoEnEdicion.estado === estadoEventos.nuevo)
+                            {
+                                __eventoEnEdicion.estado = '';
+                                $('#calendar').fullCalendar('renderEvent', evento,true);
+                            }
+                            else{
+                                __eventoEnEdicion.estado = '';
+                                $('#calendar').fullCalendar('updateEvent', evento);
+                            }
                             
                             readOnlyEvento(true);
                             $('#editaEvento').attr('disabled',false);
@@ -402,7 +406,7 @@ var editaEvento = function()
 var clearFormEventos = function()
 {
     $('#id_evento').val('');
-    $('#titulo').val('Evento');
+    $('#titulo').val('');
     $('#start').val('');
     $('#end').val('');
     $('#nombre').val('');
@@ -439,6 +443,45 @@ var readOnlyEvento = function(estado)
     $('#horaHasta').attr('readonly',estado);
     $('#guardaEvento').attr('disabled',estado);
     $('#diaCompleto').attr('disabled',estado);
+    
+};
+
+
+var nuevoEvento = function()
+{
+    readOnlyEvento(false);
+    $('#EditarEvento').modal('show');
+    $('#editaEvento').attr('disabled',true);
+    $('#eliminaEvento').attr('disabled',true);
+    clearFormEventos();
+    $('select[name="colorpicker-bootstrap3-form"]').simplecolorpicker({picker: true, theme: 'glyphicons'});
+    $('select[name="colorpicker-bootstrap3-form"]').simplecolorpicker('selectColor', IrSalud.__color);
+    
+    var fechaYhora =  moment();
+    $('#fechaDesde').datetimepicker({
+                    format: 'L'
+    }).data("DateTimePicker").date(fechaYhora);
+
+    $('#fechaHasta').datetimepicker({
+                    format: 'L'
+    }).data("DateTimePicker").date(fechaYhora);
+
+    $('#horaDesde').datetimepicker({
+                    format: 'HH:mm'
+    }).data("DateTimePicker").date(fechaYhora);
+
+    $('#horaHasta').datetimepicker({
+                    format: 'HH:mm'
+    }).data("DateTimePicker").date(fechaYhora);
+    
+    __eventoEnEdicion = new Array(
+                                {
+                                 "id":"ir-"+moment().unix(),
+                                 "estado":estadoEventos.nuevo,
+                                 "allDay":false
+                                });
+
+
     
 };
 
@@ -481,6 +524,7 @@ var showEditEvent = function(idEvento)
     clearFormEventos();
     //bloqueo los campos
     readOnlyEvento(true);
+    $('#editaEvento').attr('disabled',false);
     
     //carga de valores leidos
     $('#id_evento').val(evento.id);
@@ -656,7 +700,9 @@ this.calendario = function(){
                                 text: 'Nuevo Evento',
                                 //themeIcon:'plusthick',
                                 click: function() {
-                                    alert('clicked the custom button!');
+                                    
+                                    nuevoEvento();
+                                    
                                 }
                             }
                         },
@@ -686,8 +732,7 @@ this.calendario = function(){
                             {
                                 showEditEvent(calEvent.id);
                             }
-                            // change the border color just for fun
-                            $(this).css('border-color', 'red');
+                            
 
                         },
                         eventMouseover: function(event, jsEvent, view)
@@ -703,94 +748,6 @@ this.calendario = function(){
 			editable: true,
                         locale:'es',
 			eventLimit: true // allow "more" link when too many events
-//			events: [
-//				{
-//                                        id_evento_DB:1,
-//                                        id:01,
-//					title: 'All Day Event',
-//					start: '2017-01-01'
-//				},
-//				{
-//                                        id_evento_DB:5,
-//                                        id:100,
-//                                        color: '#7ae7bf',
-//					title: 'visitar Jose',
-//					start: '2017-01-07T11:00:00',
-//					end: '2017-01-10T08:00:00',
-//                                        nombre:'Jose',
-//                                        apellido:'Perez',
-//                                        edad:'84',
-//                                        telefonoFijo:'03424537807',
-//                                        telefonoCelular:'0342155009810',
-//                                        direccion:'blas parera 425',
-//                                        descripcion:'paciente con ACV aputacion MII',
-//                                        nota:'es un departamento timbre 3',
-//                                        estado:''
-//				},
-//				{
-//                                        id_evento_DB:3,
-//					id: 999, //id para eventos repetidos
-//					title: 'Repeating Event',
-//					start: '2017-01-09T16:00:00'
-//				},
-//				{
-//                                        id_evento_DB:4,
-//					id: 999,
-//					title: 'Repeating Event',
-//					start: '2017-01-16T16:00:00'
-//				},
-//				{
-//                                        id_evento_DB:4,
-//                                        id:02,
-//					title: 'Conference',
-//					start: '2017-01-11',
-//					end: '2017-01-13'
-//				},
-//				{
-//                                        id_evento_DB:5,
-//                                        id:03,
-//					title: 'Meeting',
-//					start: '2017-01-12T10:30:00',
-//					end: '2017-01-12T12:30:00'
-//				},
-//				{
-//                                        id_evento_DB:6  ,
-//                                        id:04,
-//					title: 'Lunch',
-//					start: '2017-01-12T12:00:00'
-//				},
-//				{
-//                                        id_evento_DB:7,
-//                                        id:05,
-//					title: 'Meeting',
-//					start: '2017-01-12T14:30:00'
-//				},
-//				{
-//                                        id_evento_DB:8,
-//                                        id:06,
-//					title: 'Happy Hour',
-//					start: '2017-01-12T17:30:00'
-//				},
-//				{
-//                                        id_evento_DB:9,
-//                                        id:07,
-//					title: 'Dinner',
-//					start: '2017-01-12T20:00:00'
-//				},
-//				{
-//                                        id_evento_DB:10,
-//                                        id:08,
-//					title: 'Birthday Party',
-//					start: '2017-01-13T07:00:00'
-//				},
-//				{
-//                                        id_evento_DB:11,
-//                                        id:09,
-//					title: 'Click for Google',
-//					url: 'http://google.com/',
-//					start: '2017-01-28'
-//				}
-//			]
 		});
             };
     

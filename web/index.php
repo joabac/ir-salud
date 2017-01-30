@@ -90,7 +90,7 @@
                         <h4 class="modal-title" id="myModalLabel">Título:</h4>
                     </div>
                     <div class="col-lg-8 col-xs-8 pull-left form-titulo">
-                            <input id="titulo" type="text" class="form-control">
+                            <input id="titulo" type="text" class="form-control" placeholder="Ingrese un titulo.">
                     </div>
               </div>
               <div class="modal-body">
@@ -100,13 +100,13 @@
                         <div class="col-lg-4 col-xs-4">
                             <div class="form-group">
                               <label for="Nombre" class="control-label">Nombre:</label>
-                              <input type="text" class="form-control Nombre" id="nombre">
+                              <input type="text" class="form-control Nombre" id="nombre" placeholder="Ingrese nombre">
                             </div>
                         </div>
                         <div class="col-lg-4 col-xs-4">
                             <div class="form-group">
                               <label for="apellido" class="control-label">Apellido:</label>
-                              <input type="text" class="form-control apellido" id="apellido">
+                              <input type="text" class="form-control apellido" id="apellido"  placeholder="Ingrese apellido">
                             </div>
                         </div>
                         <div class="col-lg-2 col-xs-2">
@@ -146,19 +146,19 @@
                         <div class="col-lg-4 col-xs-4">  
                                 <div class="form-group">
                                   <label for="telefono-fijo" class="control-label">Teléfono Fijo:</label>
-                                  <input type="text" class="form-control telefono-fijo" id="telefono-fijo" maxlength="11"> 
+                                  <input type="text" class="form-control telefono-fijo" id="telefono-fijo" maxlength="11"  placeholder="Ingrese teléfono fijo"> 
                                 </div> 
                         </div> 
                         <div class="col-lg-4 col-xs-4">
                                 <div class="form-group">
                                   <label for="telefono-celular" class="control-label">Teléfono Celular:</label>
-                                  <input type="text" class="form-control telefono-celular" id="telefono-celular" maxlength="13"> 
+                                  <input type="text" class="form-control telefono-celular" id="telefono-celular" maxlength="13"  placeholder="Ingrese teléfono celular"> 
                                 </div>
                         </div>
                         <div class="col-lg-4 col-xs-4">
                            <div class="form-group">
                                 <label for="direccion" class="control-label">Dirección:</label>
-                                <input type="text" class="form-control direccion" id="direccion">
+                                <input type="text" class="form-control direccion" id="direccion"  placeholder="Ingrese dirección">
                             </div>
                         </div>
                         
@@ -200,13 +200,13 @@
                         <div class="col-lg-6 col-xs-6">
                             <div class="form-group">
                               <label for="descripcion" class="control-label">Descripción:</label>
-                              <textarea class="form-control descripcion" id="descripcion" rows="4"></textarea>
+                              <textarea class="form-control descripcion" id="descripcion" rows="4"  placeholder="Ingrese descripción de patología"></textarea>
                             </div>
                         </div>
                         <div class="col-lg-6 col-xs-6">
                             <div class="form-group">
                               <label for="notas" class="control-label">Observaciones:</label>
-                              <textarea class="form-control notas" id="notas" rows="4"></textarea>
+                              <textarea class="form-control notas" id="notas" rows="4"  placeholder="Ingrese observaciones particulares"></textarea>
                             </div>
                         </div>
                           <input id="id_evento" type="hidden" name="id" value="" />
