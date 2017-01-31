@@ -15,24 +15,21 @@ $(document).ready(function() {
     
     //congelo variables y constantes
     estadoEventos = Object.freeze(estadoEventos);
-    const id_usuario = $('#id_usuario').val();
+
+//    IrSalud = new irSalud();
+//    IrSalud.init();
     
-    
-    IrSalud = new irSalud();
-    IrSalud.init();
-    IrSalud.getPerfil();
-    
-//declaro eventos principales de botonera
-    $('#agenda').on('click',function()
-    {
-            $('#calendar').show();
-            IrSalud.calendario();
-    });
-    
-    $('#salir').on('click',function()
-    {
-        IrSalud.salir();
-    });		
+////declaro eventos principales de botonera
+//    $('#agenda').on('click',function()
+//    {
+//            $('#calendar').show();
+//            IrSalud.calendario();
+//    });
+//    
+//    $('#salir').on('click',function()
+//    {
+//        IrSalud.salir();
+//    });		
 });
 
 
@@ -299,38 +296,6 @@ var eliminaEvento = function()
                 mensajeInformativo("Informacion","a implementar")
         }
         $('#EditarEvento').modal('hide');
-};
-
-this.getPerfil = function()
-{
-    var id =parseInt(id_usuario.value);
-    var parametros = {'parametro':'getPerfil','id_usuario':id};
-                $.ajax({
-                        method: "POST",
-                        url: "utiles.php",//__busquedaCalle,
-                        data: parametros,
-                        dataType: "json",
-                        error: function(res) 
-                        {
-                            mensajeError("Error",res.responseText);
-                           
-                        },
-                        success: function(res) {
-                            
-                            if(res.success === true)
-                            {
-                                console.log(res.perfil);
-                                $('#perfil').attr('src',res.perfil.imagen);
-                            }
-                            else
-                            {
-                               
-                                mensajeError("Error",res.message);
-                                
-                            }
-
-                        }
-                });
 };
 
 var validaEvento = function()

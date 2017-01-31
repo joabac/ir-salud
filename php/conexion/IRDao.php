@@ -59,7 +59,7 @@ class IrDao
                 exit;
         }
     }
-    static function getUsers() {
+    static function getPacientes($criterio) {
         
         try
         {

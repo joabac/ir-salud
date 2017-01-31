@@ -1,0 +1,43 @@
+INSERT INTO irsalud.pacientes (apellido,nombre,'telefonoP','telefonoS',numeroafiliado,domicilio,iniciotratamiento) VALUES 
+    ('ALCOCER',' SONIA','4 563 412',null,'14048042','REP. DE SIRIA 4428',null),
+    ('AGUIRRE',' ISABEL ','4883009',null,'4614953','PSJE KOCH 3951',null),
+    ('AYALA',' CARMEN',null,null,'5598207','AZCUENAGA 2919',null),
+    ('BEDETTI',' GUADALUPE','4743258','154347913','2390810','J. DE GARAY 1466 (S.T.)',null),
+    ('BESSI',' OSCAR ALBERTO','4595210',null,'6252242','M. ZASPE 2958 - DPTO 3',null),
+    ('BOCCHIO',' EDA','4694150','155025378','4105062','SAN JERÓNIMO 7380',null),
+    ('BOVO',' ANA MARIA','155 083 778',null,'6198177','VELEZ SARSFIELD 5336',null),
+    ('CARDOZO',' ROBERTO',null,null,'35525/02',null,null),
+    ('CARNAVAL',' NYDIA',null,null,'1971508','MARCIAL CANDIOTI 3129',null),
+    ('CASTRO',' MARIA','4841266',null,'3909765','RGTO 12 DE INFANTERIA 4285 8VO',null),
+    ('DEL CASTILLO',' JULIO','4 695 853',null,'6308374','AZCUENAGA 2919',null),
+    ('DIAZ',' YOLANDA','4691252',null,'590164','vieytes 2662',null),
+    ('FACCIPONTI',' ANGEL','4535809','156196349','6278756','4 DE ENERO 4323',null),
+    ('CIRER',' VERONICA',null,null,'9544/6','0800 345 1220',null),
+    ('FARIAS',' VIOLETA','4052830',null,'36196214','BV PELLEGRINI 3755 7ºB',null),
+    ('FELAJ',' MARGARITA','4603834',null,null,null,null),
+    ('FORNI CESAR',null,'4 563 412',null,'14681481','REP. DE SIRIA 4428',null),
+    ('GUILLEN',' ORLANDO',null,null,'60721',null,null),
+    ('GIMENEZ',' ORLANDO','4 531 760',null,'6228110','AV.FREYRE 3041   DPTO, 1',null),
+    ('GOMEZ GIORDANO',' ANA MARIA','155 122 004',null,'10863693','A. DEL VALLE 5220',null),
+    ('MACCHI',' RITA','155008455',null,'4434232','ALTE BROWN 1013 (S.VIEJO)',null),
+    ('MARTINEZ',' MA. ROSARIO','4 533 650',null,'2447032','CATAMARCA 3510',null),
+    ('MARTNEZ',' JOSE','4539338','15561305','6230897','PJE ECHEVERRIA 4763',null),
+    ('OLIVERA',' GISELA ','4746364','155379888','29896945','Ba. Sgto CABRAL  T.C 2ºPISO DPTO 7',null),
+    ('OLIVERA',' LUIS','4754928','154628252','11658316','PSJE ALSINA 3443 (S.TOME)',null),
+    ('OTTOLINA',' MARTA','4529586',null,'3989260','DR ZAVALLA 3142 DPTO.6',null),
+    ('PESSOA',' SERGIO','4524 239',null,'8509174',null,null),
+    ('PINEDO',' CRISTIAN',null,null,'31831729',null,null),
+    ('RAMAYO',' LILIANA',null,'155432787','4700234','San Lorenzo 5770',null),
+    ('SANDOVAL',' MARTINA','4511336',null,'1960730','EL POZO - M8 - C 28',null),
+    ('SCARAFFIA',' GLORIA','4539328','155561306','4474863','PJE ECHEVERRIA 4763',null),
+    ('SIMON',' MARIA ','155290416',null,'32176036','EL POZO - M7 - C 26',null),
+    ('SUAGE',' NAIR','4694464','156120059',null,'DEFENSA 6705',null),
+    ('TORRES',' ANA',null,null,'3957945','SAN JOSE 1116',null),
+    ('TRIBIANI',' JULIO','4527406','155086683','7875318','T.3 P.B. DPTO B',null),
+    ('VARONE',' AMALIA',null,null,null,null,null);
+
+    
+    asociacion mutual del personal superior de empresas de energia
+    
+    	Obra Social De Ejecutivos y del personal de direccion de empresas
+         obra social de conductores camioneros y personal del transporte automotor de cargas

@@ -76,6 +76,8 @@ body, html ,.container-fluid{
     height: 90%;
 }
 
+
+
 .herramientas
 {
     max-width: 100px;
@@ -119,6 +121,12 @@ body, html ,.container-fluid{
 
 }
 
+#buscar-pacientes
+{
+    display: none;
+   
+}
+
 .descripcion
 {
   resize: vertical;
@@ -136,4 +144,87 @@ body, html ,.container-fluid{
     height: 34px;
     width: 34px;
     background-color: inherit!important;
+}
+
+.buscar-pacientes
+{
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.buscador
+{
+    width: 90%; 
+    /*height: 35%;*/
+    min-width: 200px;
+    max-width: 900px;
+    max-height: 800px;
+    padding: 40px;
+    padding-top: 20px;
+    -webkit-box-shadow: 0px 0px 48px -5px rgba(0,0,0,0.66);
+    -moz-box-shadow: 0px 0px 48px -5px rgba(0,0,0,0.66);
+    box-shadow: 0px 0px 48px -5px rgba(0,0,0,0.66);
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+}
+
+.resultados
+{
+    margin-top: 10px;
+}
+
+.btn-group .btn {
+    transition: background-color .3s ease;
+}
+
+.panel-table .panel-body {
+    padding: 0;
+}
+
+.table > thead > tr > th {
+    border-bottom: none;
+}
+
+.panel-footer, .panel-table .panel-body .table-bordered {
+    border-style: none;
+    margin: 0;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th:first-of-type {
+    text-align: center;
+    width: 50px;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th.col-tools {
+    text-align: center;
+    width: 120px;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th:last-of-type,
+.panel-table .panel-body .table-bordered > tbody > tr > td:last-of-type {
+    border-right: 0;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th:first-of-type,
+.panel-table .panel-body .table-bordered > tbody > tr > td:first-of-type {
+    border-left: 0;
+}
+
+.panel-table .panel-body .table-bordered > tbody > tr:first-of-type > td {
+    border-bottom: 0;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr:first-of-type > th {
+    border-top: 0;
+}
+
+.pagination > li > a, .pagination > li > span {
+    border-radius: 50% !important;
+    margin: 0 5px;
+}
+
+.pagination {
+    margin: 0;
 }

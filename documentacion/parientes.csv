@@ -1,0 +1,7 @@
+insert into irsalud.parientes(nombre,apellido,id_parentesco) values 
+('NANCI,MANENTE',null,null)
+('GIMENEZ, DILDA',null,null)
+('ANDREA,ARANDA',null,null)
+('CARMEN QUIROGA',null,null)
+('STAND BY',null,null)
+('MARIANA,OLIVERA',null,1)
