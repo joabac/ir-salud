@@ -192,15 +192,15 @@ function irSalud()
     
     $('#eliminaEvento').on('click',function()
     {
-         //Confirmar eliminar
+         $('#confirma-elminar-evento').modal('show');
     });
     
     $('#botonConfirma').on('click', function(e) {
-        e.preventDefault();
-        eliminaEvento();
         
+        $('#confirma-elminar-evento').modal('hide');
+        eliminaEvento();
+ 
     });
-    
     
     $('#diaCompleto').on('change',function()
     {
@@ -245,7 +245,6 @@ var eliminaEvento = function()
 {
     var evento = __eventoEnEdicion;
     
-        return;
         if(evento.length === 1)
         {
             evento = evento[0];
@@ -300,7 +299,7 @@ var eliminaEvento = function()
                 mensajeInformativo("Informacion","a implementar")
         }
         $('#EditarEvento').modal('hide');
-}
+};
 
 this.getPerfil = function()
 {

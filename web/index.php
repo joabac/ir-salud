@@ -80,9 +80,6 @@
             
         </div>
         
-       
-        <!-- Modal confirma eliminacion-->
-        
 <!--        modal evento-->
         <div class="modal fade" id="EditarEvento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog modal-lg" role="document">
@@ -230,7 +227,27 @@
             </div>
           </div>
         </div>
-        
+     </div>   
+
+     <!--modal confirmar-->
+     
+    <div class="modal fade col-lg-12 col-xs-12" id="confirma-elminar-evento" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="title-confirma">Atención</h4>
+            </div>
+            <div class="modal-body">
+                <h5><p>Se eliminará el evento, ¿está seguro?</br>El proceso es irreversible</p></h5>
+            </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="botonCancel" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success " id="botonConfirma">Confirmar</button>
+              </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
     </body>
     
     
