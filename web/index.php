@@ -26,7 +26,8 @@
         <link href="css/estilo.css" rel="stylesheet" type="text/css"/>
         <link href="css/fonts.css" rel="stylesheet" type="text/css"/>
         <link href="js/pnotify.custom.min.css" rel="stylesheet" type="text/css"/>
-        
+        <link href="js/jsgrid-1.5.3/jsgrid.min.css" rel="stylesheet" type="text/css"/>
+        <link href="js/jsgrid-1.5.3/jsgrid-theme.min.css" rel="stylesheet" type="text/css"/>
 <!--        librerías-->
         <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
         <script src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js" type="text/javascript"></script>
@@ -40,7 +41,9 @@
         <script src="js/jquery-simplecolorpicker/jquery.simplecolorpicker.js" type="text/javascript"></script>
         <script src="js/pnotify.custom.min.js" type="text/javascript"></script>
         <script src="js/utileria.js" type="text/javascript"></script>
-        
+        <script src="js/jsgrid-1.5.3/jsgrid.js" type="text/javascript"></script>
+        <script src="js/jsgrid-1.5.3/i18n/jsgrid-es.js" type="text/javascript"></script>
+        <script src="js/pacientesDB.js" type="text/javascript"></script>
         <script src="js/pacientes.js" type="text/javascript"></script>
         <script src="js/irsalud_agenda.js" type="text/javascript"></script>
         <script src="irsalud.js" type="text/javascript"></script>
@@ -51,7 +54,8 @@
             
                 <div class="row">
                     <div class="col-lg-12 col-xs-12 header">
-                        <div class="col-lg-3 col-xs-3 pull-left logo"></div>
+                        <div class="col-lg-3 col-xs-3 pull-left "><img class="logo" src="img/logo_header.png" alt=""/></div>
+                        
                         <div class="col-lg-6 col-xs-2"></div>
                         <div class="col-lg-3 col-xs-7 text-right text-nowrap ">
                             <div class="pull-right">
@@ -75,115 +79,23 @@
                     </div>
                     
                     <div id="contenido" class="col-lg-11 col-xs-10 pull-left">
-                        <div id="buscar-pacientes" class="row buscador buscar-pacientes">
-                           <div class="panel panel-primary">
+                        <div id="buscar-pacientes" class="row buscador buscar-pacientes col-lg-12 col-sm-12 col-xs-12">
+                           <div class="panel panel-primary ">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Buscador de pacientes</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="row">    
-                                        <div class="col-lg-12 col-xs-12 pull-left">
-                                            <div class="input-group">
-                                                <div class="input-group-btn search-panel">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                                        <span id="search_concept">Filtrar por</span> <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                      <li><a href="#contains">Nombre</a></li>
-                                                      <li><a href="#its_equal">Apellido</a></li>
-                                                      <li><a href="#greather_than">Nombre y Apellido</a></li>
-                                                      <li class="divider"></li>
-                                                      <li><a href="#less_than">Documento</a></li>
-                                                      <li><a href="#all">Obra Social</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="hidden" name="search_param" value="all" id="search_param">         
-                                                <input type="text" class="form-control" name="x" placeholder="Término a buscar...">
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                                                </span>
-                                            </div>
-                                        </div>
+                                   
+                                    <div class="row" id="resultados">
+                                       <div id="pacientesGrid"></div>
+                                          
                                     </div>
-                                    <div class="row resultados" id="resultados">
-                                        <table id="mytable" class="table table-striped table-bordered table-list">
-                                                <thead>
-                                                <tr>
-                                                    <th class="col-check"><input type="checkbox" id="checkall" onclick="test()"/></th>
-                                                    <th class="col-tools"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                                                    </th>
-                                                    <th class="hidden">id_paciente</th>
-                                                    <th class="col-text">Nombre</th>
-                                                    <th class="col-text">Apellido</th>
-                                                    <th class="col-text">Documento</th>
-                                                    <th class="col-text">Teléfono</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr data-status="completed">
-                                                    <td align="center"><input type="checkbox" class="checkthis"/></td>
-                                                    <td align="center">
-                                                        <a class="btn btn-default"><span class="glyphicon glyphicon-pencil"
-                                                                                         aria-hidden="true"></span></a>
-                                                        <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"
-                                                                                        aria-hidden="true"></span></a>
-                                                    </td>
-                                                    <td class="hidden-xs">1</td>
-                                                    <td>John Doe</td>
-                                                    <td>johndoe@example.com</td>
-                                                </tr>
-                                                <tr data-status="pending">
-                                                    <td align="center"><input type="checkbox" class="checkthis"/></td>
-                                                    <td align="center">
-                                                        <a class="btn btn-default"><span class="glyphicon glyphicon-pencil"
-                                                                                         aria-hidden="true"></span></a>
-                                                        <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"
-                                                                                        aria-hidden="true"></span></a>
-                                                    </td>
-                                                    <td class="hidden-xs">2</td>
-                                                    <td>Jen Curtis</td>
-                                                    <td>jencurtis@example.com</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-                                        <div class="panel-footer">
-                                            <div class="row">
-                                                <div class="col col-xs-offset-3 col-xs-6">
-                                                    <nav aria-label="Page navigation" class="text-center">
-                                                        <ul class="pagination">
-                                                            <li>
-                                                                <a href="#" aria-label="Previous">
-                                                                    <span aria-hidden="true">«</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="active"><a href="#">1</a></li>
-                                                            <li><a href="#">2</a></li>
-                                                            <li><a href="#">3</a></li>
-                                                            <li><a href="#">4</a></li>
-                                                            <li><a href="#">5</a></li>
-                                                            <li>
-                                                                <a href="#" aria-label="Next">
-                                                                    <span aria-hidden="true">»</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </nav>
-                                                </div>
-                                                <div class="col col-xs-3">
-                                                    <div class="pull-right">
-                                                        <button type="button" class="btn btn-primary">
-                                                            <span class="glyphicon glyphicon-plus"
-                                                                  aria-hidden="true"></span>
-                                                            Add row
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
+                                <div class="panel-footer">
+
+                                </div>
+                            </div>
                         </div>
                         
                         <div id="calendar"></div>
